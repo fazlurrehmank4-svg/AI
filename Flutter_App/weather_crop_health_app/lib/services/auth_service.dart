@@ -107,6 +107,24 @@ class AuthService {
       await prefs.remove("auth_token");
     } catch (_) {}
   }
+  Future<void> updateFarmLocation(String newLocation) async {
+    final clean = newLocation.trim();
+    if (clean.isEmpty) return;
+    if (_currentUser != null) {
+      _currentUser = FarmerUser(
+        id: _currentUser!.id,
+        email: _currentUser!.email,
+        fullName: _currentUser!.fullName,
+        farmLocation: clean,
+        isGuest: _currentUser!.isGuest,
+      );
+    }
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString("farm_loc", clean);
+      await prefs.setString("farmer_default_location", clean);
+    } catch (_) {}
+  }
 
   Future<void> _saveUser(FarmerUser user, String? token) async {
     _currentUser = user;

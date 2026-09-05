@@ -56,6 +56,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         _weather = w;
         _isLoading = false;
       });
+      await _locationService.setSavedDefaultLocation(w.locationName);
     }
   }
 
@@ -88,6 +89,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
           _weather = w;
           _isLoading = false;
         });
+        await _locationService.setSavedDefaultLocation(result.locationName);
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: CropGuardTheme.primary,
@@ -123,11 +126,20 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CropGuardTheme.background,
-      appBar: AppBar(
-        title: const Text("Meteorological Telemetry"),
-        actions: [
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) Navigator.pop(context, _weather);
+      },
+      child: Scaffold(
+        backgroundColor: CropGuardTheme.background,
+        appBar: AppBar(
+          title: const Text("Meteorological Telemetry"),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            onPressed: () => Navigator.pop(context, _weather),
+          ),
+          actions: [
           IconButton(
             tooltip: "Auto-detect GPS Location",
             icon: _isLocating
@@ -269,8 +281,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(

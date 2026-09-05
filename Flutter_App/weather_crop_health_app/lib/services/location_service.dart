@@ -27,7 +27,11 @@ class LocationService {
   Future<String?> getSavedDefaultLocation() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(_defaultLocationKey);
+      final loc = prefs.getString(_defaultLocationKey) ?? prefs.getString("farm_loc");
+      if (loc != null && loc.trim().isNotEmpty) {
+        return loc.trim();
+      }
+      return null;
     } catch (_) {
       return null;
     }
@@ -35,9 +39,12 @@ class LocationService {
 
   /// Sets the farmer's default location name in local storage
   Future<void> setSavedDefaultLocation(String locationName) async {
+    final clean = locationName.trim();
+    if (clean.isEmpty) return;
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(_defaultLocationKey, locationName.trim());
+      await prefs.setString(_defaultLocationKey, clean);
+      await prefs.setString("farm_loc", clean);
     } catch (_) {}
   }
 

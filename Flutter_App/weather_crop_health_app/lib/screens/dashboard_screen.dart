@@ -66,6 +66,217 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  Future<void> _applyNewWeather(WeatherModel w) async {
+    setState(() {
+      _weather = w;
+      _farmLocation = w.locationName;
+      _isLoading = true;
+    });
+
+    await LocationService().setSavedDefaultLocation(w.locationName);
+    await AuthService().updateFarmLocation(w.locationName);
+
+    final p = await _apiService.predictCropHealth(
+      crop: _selectedCrop.name,
+      weather: w,
+      userId: AuthService().currentUser?.id,
+    );
+
+    if (mounted) {
+      setState(() {
+        _latestPrediction = p;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _changeLocation(String city) async {
+    setState(() => _isLoading = true);
+    await LocationService().setSavedDefaultLocation(city);
+    await AuthService().updateFarmLocation(city);
+    final w = await _apiService.fetchWeather(city: city);
+    await _applyNewWeather(w);
+  }
+
+  Future<void> _detectGpsLocation() async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Detecting GPS coordinates..."), duration: Duration(seconds: 2)),
+    );
+    final loc = await LocationService().getCurrentLocation();
+    if (!mounted) return;
+    if (loc != null) {
+      final w = await _apiService.fetchWeather(lat: loc.latitude, lon: loc.longitude);
+      await _applyNewWeather(w);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CropGuardTheme.primary,
+          content: Text("📍 Farm location set to: ${w.locationName}"),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.orange,
+          content: Text("Could not retrieve GPS coordinates. Please check location permissions."),
+        ),
+      );
+    }
+  }
+
+  void _showLocationPickerBottomSheet() {
+    final searchCtrl = TextEditingController(text: _farmLocation);
+    final popularAgriDistricts = [
+      "Pune", "Nashik", "Ludhiana", "Varanasi", "Nagpur",
+      "Hyderabad", "Bengaluru", "Ahmedabad", "Jaipur", "Indore",
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 20,
+            bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                "Choose Your Farm Location",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: CropGuardTheme.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                "Select your agricultural district or auto-detect via GPS for live weather telemetry.",
+                style: TextStyle(fontSize: 12, color: CropGuardTheme.textSecondary),
+              ),
+              const SizedBox(height: 16),
+
+              // 1. Auto GPS Detect Button
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: CropGuardTheme.primary.withValues(alpha: 0.1),
+                  foregroundColor: CropGuardTheme.primary,
+                  elevation: 0,
+                  minimumSize: const Size(double.infinity, 46),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(color: CropGuardTheme.primary),
+                  ),
+                ),
+                icon: const Icon(Icons.my_location_rounded, size: 18),
+                label: const Text(
+                  "Use Current GPS Location",
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  _detectGpsLocation();
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // 2. Custom Location Search Input
+              TextField(
+                controller: searchCtrl,
+                autofocus: false,
+                decoration: InputDecoration(
+                  hintText: "Type any district (e.g. Nashik, Ludhiana)...",
+                  prefixIcon: const Icon(Icons.search, color: CropGuardTheme.primary),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.check_circle_rounded, color: CropGuardTheme.primary),
+                    onPressed: () {
+                      final val = searchCtrl.text.trim();
+                      if (val.isNotEmpty) {
+                        Navigator.pop(ctx);
+                        _changeLocation(val);
+                      }
+                    },
+                  ),
+                ),
+                onSubmitted: (val) {
+                  if (val.trim().isNotEmpty) {
+                    Navigator.pop(ctx);
+                    _changeLocation(val.trim());
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // 3. Quick Popular Districts
+              const Text(
+                "Major Agricultural Hubs",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: CropGuardTheme.textSecondary),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: popularAgriDistricts.map((city) {
+                  final isSelected = _farmLocation.toLowerCase().contains(city.toLowerCase());
+                  return ChoiceChip(
+                    label: Text(city),
+                    selected: isSelected,
+                    selectedColor: CropGuardTheme.primary.withValues(alpha: 0.2),
+                    backgroundColor: Colors.white,
+                    side: BorderSide(
+                      color: isSelected ? CropGuardTheme.primary : CropGuardTheme.border,
+                    ),
+                    labelStyle: TextStyle(
+                      fontSize: 12,
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      color: isSelected ? CropGuardTheme.primaryDark : CropGuardTheme.textPrimary,
+                    ),
+                    onSelected: (_) {
+                      Navigator.pop(ctx);
+                      _changeLocation(city);
+                    },
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _openWeatherScreen() async {
+    final updatedWeather = await Navigator.push<WeatherModel>(
+      context,
+      MaterialPageRoute(builder: (_) => WeatherScreen(initialWeather: _weather)),
+    );
+    if (updatedWeather != null) {
+      _applyNewWeather(updatedWeather);
+    } else {
+      _loadDashboardData();
+    }
+  }
+
   void _onCropChanged(CropModel newCrop) async {
     setState(() {
       _selectedCrop = newCrop;
@@ -160,15 +371,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ),
                             const SizedBox(height: 3),
-                            Row(
-                              children: [
-                                const Icon(Icons.location_on_rounded, size: 13, color: CropGuardTheme.primary),
-                                const SizedBox(width: 4),
-                                Text(
-                                  _farmLocation,
-                                  style: const TextStyle(fontSize: 13, color: CropGuardTheme.textSecondary),
+                            InkWell(
+                              onTap: _showLocationPickerBottomSheet,
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(color: CropGuardTheme.primary.withValues(alpha: 0.25)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(alpha: 0.04),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.location_on_rounded, size: 14, color: CropGuardTheme.primary),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      _farmLocation,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                        color: CropGuardTheme.primaryDark,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    const Icon(Icons.edit_location_alt_outlined, size: 14, color: CropGuardTheme.textSecondary),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -214,10 +451,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     // 2. Weather Summary Card
                     if (_weather != null)
                       GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => WeatherScreen(initialWeather: _weather)),
-                        ),
+                        onTap: _openWeatherScreen,
                         child: WeatherCard(
                           weather: _weather!,
                           onRefresh: _loadDashboardData,
@@ -456,7 +690,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             title: const Text("Weather Telemetry"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (_) => WeatherScreen(initialWeather: _weather)));
+              _openWeatherScreen();
             },
           ),
           ListTile(
