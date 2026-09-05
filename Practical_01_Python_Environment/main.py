@@ -14,7 +14,10 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-def run_practical_01(data_path="Data/processed/crop_weather_data.csv", output_dir="Practical_01_Python_Environment"):
+def run_practical_01():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    data_path = os.path.join(base_dir, "Data", "processed", "crop_weather_data.csv")
+    output_dir = os.path.join(base_dir, "Practical_01_Python_Environment")
     os.makedirs(output_dir, exist_ok=True)
     print("=" * 60)
     print("PRACTICAL 01: AGRICULTURAL DATA PREPROCESSING & EDA")

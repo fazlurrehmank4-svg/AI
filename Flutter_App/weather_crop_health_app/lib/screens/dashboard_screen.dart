@@ -5,6 +5,7 @@ import '../models/weather_model.dart';
 import '../models/prediction_model.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../services/location_service.dart';
 import '../widgets/weather_card.dart';
 import '../widgets/health_score_gauge.dart';
 import '../widgets/risk_badge.dart';
@@ -30,6 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   WeatherModel? _weather;
   PredictionModel? _latestPrediction;
   bool _isLoading = true;
+  String _farmLocation = "Locating farm...";
 
   @override
   void initState() {
@@ -39,9 +41,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _loadDashboardData() async {
     setState(() => _isLoading = true);
-    // 1. Fetch current weather
-    final w = await _apiService.fetchWeather(city: "New Delhi");
-    // 2. Perform automated baseline prediction for selected crop
+    // 1. Resolve farmer's default location (from GPS, saved preferences, or profile)
+    final savedLoc = await LocationService().getSavedDefaultLocation();
+    final profileLoc = AuthService().currentUser?.farmLocation;
+    final cityToQuery = savedLoc ?? (profileLoc != null && profileLoc.isNotEmpty ? profileLoc : "New Delhi");
+
+    // 2. Fetch current weather for the farmer's location
+    final w = await _apiService.fetchWeather(city: cityToQuery);
+
+    // 3. Perform automated baseline prediction for selected crop
     final p = await _apiService.predictCropHealth(
       crop: _selectedCrop.name,
       weather: w,
@@ -52,6 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       setState(() {
         _weather = w;
         _latestPrediction = p;
+        _farmLocation = w.locationName;
         _isLoading = false;
       });
     }
@@ -151,9 +160,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ),
                             const SizedBox(height: 3),
-                            Text(
-                              user?.farmLocation ?? "Central Agricultural Zone",
-                              style: const TextStyle(fontSize: 13, color: CropGuardTheme.textSecondary),
+                            Row(
+                              children: [
+                                const Icon(Icons.location_on_rounded, size: 13, color: CropGuardTheme.primary),
+                                const SizedBox(width: 4),
+                                Text(
+                                  _farmLocation,
+                                  style: const TextStyle(fontSize: 13, color: CropGuardTheme.textSecondary),
+                                ),
+                              ],
                             ),
                           ],
                         ),

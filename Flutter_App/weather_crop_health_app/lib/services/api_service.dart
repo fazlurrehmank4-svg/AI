@@ -6,7 +6,7 @@ import '../models/prediction_model.dart';
 import '../models/chat_message_model.dart';
 
 class ApiService {
-  static const String defaultEmulatorUrl = "http://10.0.2.2:8000";
+  static const String defaultEmulatorUrl = "https://ai-fb48.onrender.com";
   static const String defaultLocalhostUrl = "http://127.0.0.1:8000";
 
   String _baseUrl = defaultEmulatorUrl;

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../models/weather_model.dart';
 import '../services/api_service.dart';
+import '../services/auth_service.dart';
+import '../services/location_service.dart';
 import '../widgets/weather_card.dart';
 
 class WeatherScreen extends StatefulWidget {
@@ -15,9 +17,12 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
   final ApiService _apiService = ApiService();
+  final LocationService _locationService = LocationService();
   final TextEditingController _searchController = TextEditingController();
+  
   WeatherModel? _weather;
   bool _isLoading = false;
+  bool _isLocating = false;
 
   final List<String> _suggestedCities = [
     "New Delhi", "Pune", "Nashik", "Ludhiana", "Varanasi", "Hyderabad", "Bengaluru"
@@ -27,8 +32,19 @@ class _WeatherScreenState extends State<WeatherScreen> {
   void initState() {
     super.initState();
     _weather = widget.initialWeather;
+    _initDefaultLocation();
+  }
+
+  Future<void> _initDefaultLocation() async {
+    // Determine default location from user profile or saved preferences
+    final saved = await _locationService.getSavedDefaultLocation();
+    final profileLoc = AuthService().currentUser?.farmLocation;
+    final defaultCity = saved ?? (profileLoc != null && profileLoc.isNotEmpty ? profileLoc : "New Delhi");
+
+    _searchController.text = defaultCity;
+
     if (_weather == null) {
-      _fetchWeatherForCity("New Delhi");
+      _fetchWeatherForCity(defaultCity);
     }
   }
 
@@ -43,36 +59,146 @@ class _WeatherScreenState extends State<WeatherScreen> {
     }
   }
 
+  Future<void> _fetchWeatherFromGps() async {
+    setState(() => _isLocating = true);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Detecting GPS satellite fix..."),
+        duration: Duration(seconds: 2),
+      ),
+    );
+
+    final result = await _locationService.getCurrentLocation();
+    if (!mounted) return;
+
+    if (result != null) {
+      _searchController.text = result.locationName;
+      setState(() {
+        _isLocating = false;
+        _isLoading = true;
+      });
+
+      final w = await _apiService.fetchWeather(
+        lat: result.latitude,
+        lon: result.longitude,
+      );
+
+      if (mounted) {
+        setState(() {
+          _weather = w;
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: CropGuardTheme.primary,
+            content: Text("📍 Auto-located: ${result.locationName}"),
+          ),
+        );
+      }
+    } else {
+      setState(() => _isLocating = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.orange,
+          content: Text("Could not retrieve GPS coordinates. Please check location permissions."),
+        ),
+      );
+    }
+  }
+
+  Future<void> _saveAsDefaultLocation() async {
+    final loc = _searchController.text.trim();
+    if (loc.isEmpty) return;
+
+    await _locationService.setSavedDefaultLocation(loc);
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: CropGuardTheme.primary,
+        content: Text("✅ '$loc' set as your default farm location!"),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CropGuardTheme.background,
-      appBar: AppBar(title: const Text("Meteorological Telemetry")),
+      appBar: AppBar(
+        title: const Text("Meteorological Telemetry"),
+        actions: [
+          IconButton(
+            tooltip: "Auto-detect GPS Location",
+            icon: _isLocating
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                  )
+                : const Icon(Icons.my_location),
+            onPressed: _isLocating ? null : _fetchWeatherFromGps,
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Location Search Input
+            // Location Search Input with GPS Trigger
             TextField(
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: "Enter agricultural district or locality...",
                 prefixIcon: const Icon(Icons.search, color: CropGuardTheme.primary),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.arrow_forward_rounded, color: CropGuardTheme.primary),
-                  onPressed: () {
-                    if (_searchController.text.trim().isNotEmpty) {
-                      _fetchWeatherForCity(_searchController.text.trim());
-                    }
-                  },
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      tooltip: "Detect GPS location",
+                      icon: _isLocating
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.gps_fixed, color: CropGuardTheme.primary),
+                      onPressed: _isLocating ? null : _fetchWeatherFromGps,
+                    ),
+                    IconButton(
+                      tooltip: "Search",
+                      icon: const Icon(Icons.arrow_forward_rounded, color: CropGuardTheme.primary),
+                      onPressed: () {
+                        if (_searchController.text.trim().isNotEmpty) {
+                          _fetchWeatherForCity(_searchController.text.trim());
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
               onSubmitted: (val) {
                 if (val.trim().isNotEmpty) _fetchWeatherForCity(val.trim());
               },
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
+
+            // Quick Actions: Save as Default & Suggestions
+            Row(
+              children: [
+                ActionChip(
+                  avatar: const Icon(Icons.star_rounded, size: 16, color: Colors.amber),
+                  label: const Text("Set as Default Farm Location"),
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(color: CropGuardTheme.border),
+                  labelStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: CropGuardTheme.textPrimary),
+                  onPressed: _saveAsDefaultLocation,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
             // Quick suggested regions
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -94,7 +220,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 }).toList(),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
 
             if (_isLoading)
               const Center(
