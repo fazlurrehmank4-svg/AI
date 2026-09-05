@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: cropguard-ai-backend
+    runtime: python
+    buildCommand: pip install -r Backend/requirements.txt
+    startCommand: uvicorn Backend.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: SUPABASE_URL
+        value: https://tspdpkyhszrebrclsefz.supabase.co
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: WEATHER_PROVIDER
+        value: open_meteo
+      - key: ALLOWED_ORIGINS
+        value: "*"
