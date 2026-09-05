@@ -179,6 +179,45 @@ AGRICULTURAL_CORPUS = [
             "crops falling down due to wind lodging"
         ],
         "answer": "High wind speeds (>30 km/h) combined with rain-softened soils cause crop lodging (physical bending/collapse). Earth up soil along rows to reinforce root crowns, install windbreak netting on exposed borders, and stake vulnerable plants."
+    },
+    {
+        "topic": "forecast_harm_next_3_days",
+        "crop": "General",
+        "query_templates": [
+            "will there be any harm to my crop in next 3 days",
+            "weather forecast crop risk next 3 days",
+            "possible harm to crop in next 3 days",
+            "upcoming weather damage to crop",
+            "next 3 days weather impact",
+            "will rain or heat harm my crop this week",
+            "future weather risk for my farm"
+        ],
+        "answer": "Over the next 3 days, potential crop harm is determined by peak canopy temperatures, precipitation accumulation, and wind gusts. Heavy rainfall (>20mm) triggers root zone waterlogging and fungal sporulation; thermal spikes (>32°C) cause flower abortion and forced grain ripening; while strong winds (>28 km/h) risk physical crop lodging. Consult your 3-Day Forecast Alert tab for daily threat evaluations and tailored precautions."
+    },
+    {
+        "topic": "three_day_weather_precautions",
+        "crop": "General",
+        "query_templates": [
+            "what precautions should i take in next 3 days",
+            "precaution for upcoming weather",
+            "prevention steps for next 3 days",
+            "how to protect crop against 3 day forecast",
+            "precautions for weather changes",
+            "what precautions should i take"
+        ],
+        "answer": "Key protective precautions for upcoming 3-day weather shifts: 1) Deepen perimeter and furrow drainage trenches before heavy rainfall begins to avoid waterlogging; 2) Postpone foliar spraying of fertilizers or pesticides during rainy or windy periods to prevent runoff; 3) Under severe heat forecasts, irrigate lightly during early morning or evening hours to insulate roots; 4) Provide earthing-up or staking to support standing crops against wind lodging."
+    },
+    {
+        "topic": "crop_disease_precautions",
+        "crop": "General",
+        "query_templates": [
+            "how to prevent disease in crop",
+            "disease prevention precautions",
+            "how to protect from fungal attack",
+            "precaution against crop disease",
+            "prevent fungal blight and rust"
+        ],
+        "answer": "To prevent weather-induced crop disease: ensure balanced fertilization (avoid excess nitrogen which produces tender, disease-prone tissues), maintain row spacing to encourage canopy air circulation, apply prophylactic biological agents (such as Trichoderma viride) or copper fungicides before prolonged humid rains, and regularly inspect lower leaf surfaces."
     }
 ]
 

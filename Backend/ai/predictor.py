@@ -1,11 +1,12 @@
 """
 CropGuard AI Unified Predictor Engine
 Coordinates:
-  - Regression Model (Continuous Health Score 0-100)
+  - Dynamic Agronomic & ML Regression Model (Continuous Health Score 0-100)
   - Classification Model (Healthy / At Risk / High Risk)
   - K-Means Clustering (Agro-Climatic Regime)
   - Forward Chaining Inference (Causes & Precautions)
   - Backward Chaining Verification (Explainability)
+  - 3-Day Crop Hazard & Forecast Alert Engine
 """
 
 import os
@@ -59,43 +60,71 @@ class CropGuardPredictor:
         location_name: str = "Field Station"
     ) -> Dict[str, Any]:
         """
-        Executes end-to-end multi-model inference and reasoning.
+        Executes end-to-end multi-model inference and crop-specific reasoning.
         """
         crop_clean = crop.capitalize()
 
-        # 1. Regression Inference (Crop Health Score)
+        # 1. Crop-Specific Agronomic Biological Envelope Calculation
+        temp_penalty = 0.0
+        hum_penalty = 0.0
+        rain_penalty = 0.0
+        wind_penalty = 0.0
+
+        kb_crop = self.knowledge_base.get(crop_clean, {
+            "temp_optimal": (18.0, 28.0),
+            "humidity_optimal": (50.0, 75.0),
+            "rainfall_optimal": (40.0, 100.0),
+            "precautions": ["Follow recommended irrigation schedules and routine crop scouting."]
+        })
+
+        t_min, t_max = kb_crop.get("temp_optimal", (18.0, 28.0))
+        h_min, h_max = kb_crop.get("humidity_optimal", (50.0, 75.0))
+        r_min, r_max = kb_crop.get("rainfall_optimal", (40.0, 100.0))
+
+        if temperature < t_min:
+            temp_penalty = min(40.0, (t_min - temperature) * 3.5)
+        elif temperature > t_max:
+            temp_penalty = min(45.0, (temperature - t_max) * 4.0)
+
+        if humidity < h_min:
+            hum_penalty = min(30.0, (h_min - humidity) * 1.2)
+        elif humidity > h_max:
+            hum_penalty = min(35.0, (humidity - h_max) * 1.5)
+
+        if rainfall < r_min:
+            rain_penalty = min(35.0, ((r_min - rainfall) / max(1.0, r_min)) * 35.0)
+        elif rainfall > r_max:
+            rain_penalty = min(40.0, ((rainfall - r_max) / max(1.0, r_max)) * 40.0)
+
+        if wind_speed > 32.0:
+            wind_penalty = min(25.0, (wind_speed - 32.0) * 1.4)
+
+        total_penalty = temp_penalty + hum_penalty + rain_penalty + wind_penalty
+        agronomic_score = max(8.0, min(98.0, 100.0 - total_penalty))
+
+        # 2. Regression ML Blend (Anchored by crop agronomics)
         if self.reg_artifact and "model" in self.reg_artifact and "scaler" in self.reg_artifact:
             features_reg = np.array([[temperature, humidity, rainfall, wind_speed]])
             features_scaled = self.reg_artifact["scaler"].transform(features_reg)
-            raw_score = float(self.reg_artifact["model"].predict(features_scaled)[0])
-            health_score = round(float(np.clip(raw_score, 5.0, 98.0)), 1)
+            raw_reg = float(self.reg_artifact["model"].predict(features_scaled)[0])
+            # Blend statistical baseline with crop biological reality
+            blended = 0.30 * raw_reg + 0.70 * agronomic_score
+            health_score = round(float(np.clip(blended, 8.0, 98.0)), 1)
         else:
-            health_score = 75.0  # Fallback baseline
+            health_score = round(float(agronomic_score), 1)
 
-        # 2. Classification Inference (Health Status)
-        if self.dt_artifact and "model" in self.dt_artifact:
-            # Features: [temperature, humidity, rainfall, wind_speed, soil_ph]
-            features_dt = np.array([[temperature, humidity, rainfall, wind_speed, soil_ph]])
-            class_idx = int(self.dt_artifact["model"].predict(features_dt)[0])
-            classes = self.dt_artifact.get("classes", ["Healthy", "At Risk", "High Risk"])
-            health_status = classes[class_idx]
+        # 3. Dynamic Health Status Classification
+        if health_score >= 75.0:
+            health_status = "Healthy"
+            risk_level = "Low"
+        elif health_score >= 50.0:
+            health_status = "At Risk"
+            risk_level = "Moderate"
         else:
-            if health_score >= 75:
-                health_status = "Healthy"
-            elif health_score >= 50:
-                health_status = "At Risk"
-            else:
-                health_status = "High Risk"
+            health_status = "High Risk"
+            risk_level = "High"
 
-        # Map to Risk Level
-        risk_map = {
-            "Healthy": "Low",
-            "At Risk": "Moderate",
-            "High Risk": "High"
-        }
-        risk_level = risk_map.get(health_status, "Moderate")
-
-        # 3. K-Means Clustering (Agro-Climatic Regime)
+        # 4. K-Means Clustering (Agro-Climatic Regime)
         regime_label = "Temperate Agricultural Zone"
         if self.kmeans_artifact and "model" in self.kmeans_artifact and "scaler" in self.kmeans_artifact:
             features_km = np.array([[temperature, humidity, rainfall, wind_speed]])
@@ -103,52 +132,50 @@ class CropGuardPredictor:
             cluster_id = int(self.kmeans_artifact["model"].predict(features_km_scaled)[0])
             regime_label = self.kmeans_artifact.get("label_map", {}).get(cluster_id, f"Climatic Cluster {cluster_id}")
 
-        # 4. Forward Chaining Reasoning (Causes & Precautions)
+        # 5. Forward Chaining Reasoning (Causes & Precautions)
         facts = self.reasoning_engine.extract_facts_from_weather(temperature, humidity, rainfall, wind_speed)
         fc_res = self.reasoning_engine.forward_chaining(facts)
 
-        causes = fc_res.get("causes", [])
-        precautions = fc_res.get("precautions", [])
+        causes = list(fc_res.get("causes", []))
+        precautions = list(fc_res.get("precautions", []))
 
-        # Enrich causes & precautions with crop-specific knowledge base
-        if crop_clean in self.knowledge_base:
-            kb_crop = self.knowledge_base[crop_clean]
-            t_min, t_max = kb_crop["temp_optimal"]
-            h_min, h_max = kb_crop["humidity_optimal"]
-            r_min, r_max = kb_crop["rainfall_optimal"]
+        # Crop-specific cause identification
+        if temperature < t_min:
+            causes.insert(0, f"Canopy temperature ({temperature:.1f}°C) is {t_min - temperature:.1f}°C below {crop_clean}'s optimal minimum ({t_min}°C).")
+        elif temperature > t_max:
+            causes.insert(0, f"Canopy temperature ({temperature:.1f}°C) exceeds {crop_clean}'s thermal ceiling ({t_max}°C).")
 
-            if temperature < t_min:
-                causes.insert(0, f"Ambient temperature ({temperature:.1f}°C) is below {crop_clean}'s optimal minimum of {t_min}°C.")
-            elif temperature > t_max:
-                causes.insert(0, f"Ambient temperature ({temperature:.1f}°C) exceeds {crop_clean}'s optimal threshold of {t_max}°C.")
+        if humidity > h_max:
+            causes.append(f"Relative humidity ({humidity:.1f}%) exceeds recommended threshold of {h_max}%, elevating foliar blight risk.")
+        elif humidity < h_min:
+            causes.append(f"Dry air ({humidity:.1f}%) accelerates evapo-transpiration for {crop_clean}.")
 
-            if humidity > h_max:
-                causes.append(f"Relative humidity ({humidity:.1f}%) exceeds recommended ceiling of {h_max}%, elevating foliar fungal risk.")
+        if rainfall > r_max:
+            causes.append(f"Rainfall ({rainfall:.1f} mm) surpasses {crop_clean}'s optimal ceiling ({r_max} mm), risking root zone waterlogging.")
+        elif rainfall < r_min:
+            causes.append(f"Rainfall deficit ({rainfall:.1f} mm vs optimal {r_min}-{r_max} mm) requires supplemental irrigation.")
 
-            if rainfall > r_max:
-                causes.append(f"Rainfall ({rainfall:.1f} mm) is higher than {crop_clean}'s optimal ceiling of {r_max} mm, creating waterlogging risk.")
-
-            # Append general agronomic precautions if needed
-            for p in kb_crop.get("precautions", []):
-                if p not in precautions:
-                    precautions.append(p)
+        # Enrich precautions
+        for p in kb_crop.get("precautions", []):
+            if p not in precautions:
+                precautions.append(p)
 
         if not causes:
             causes = ["Meteorological parameters remain within acceptable biological envelopes for this crop."]
         if not precautions:
             precautions = ["Maintain scheduled scoutings and follow standard irrigation management."]
 
-        # 5. Backward Chaining Explanation
-        if "fungal_disease_risk_high" in fc_res["final_facts"]:
+        # 6. Backward Chaining Explanation
+        if "fungal_disease_risk_high" in fc_res.get("final_facts", []):
             _, _, explanation = self.reasoning_engine.backward_chaining("fungal_disease_risk_high", facts)
-        elif "heat_and_drought_stress_severe" in fc_res["final_facts"]:
+        elif "heat_and_drought_stress_severe" in fc_res.get("final_facts", []):
             _, _, explanation = self.reasoning_engine.backward_chaining("heat_and_drought_stress_severe", facts)
         elif health_status == "Healthy":
-            explanation = f"Current weather conditions (Temp: {temperature}°C, Humidity: {humidity}%) align with optimal physiological thresholds for {crop_clean}."
+            explanation = f"Current weather conditions (Temp: {temperature:.1f}°C, Humidity: {humidity:.1f}%) match optimal agronomic envelopes for {crop_clean}."
         else:
-            explanation = f"Health status '{health_status}' deduced because observed weather parameters deviate from {crop_clean} cultivation guidelines."
+            explanation = f"Crop health diagnosed as '{health_status}' (Score {health_score}/100) due to observed deviations from {crop_clean}'s recommended cultivation standards."
 
-        primary_risk_factor = causes[0]
+        primary_risk_factor = causes[0] if causes else "Normal Parameters"
 
         return {
             "crop": crop_clean,
@@ -164,8 +191,122 @@ class CropGuardPredictor:
             "risk_level": risk_level,
             "primary_risk_factor": primary_risk_factor,
             "agro_climatic_regime": regime_label,
-            "causes": causes[:4],  # Top 4 distinct causes
-            "precautions": precautions[:4],  # Top 4 actionable precautions
+            "causes": causes[:4],
+            "precautions": precautions[:4],
             "ai_explanation": explanation,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
+    def evaluate_forecast_hazards(
+        self,
+        crop: str,
+        forecast_days: List[Dict[str, Any]],
+        location_name: str = "Local Farm"
+    ) -> Dict[str, Any]:
+        """
+        Evaluates weather for the next 3 days, identifying specific crop hazards and actionable precautions.
+        """
+        crop_clean = crop.capitalize()
+        kb_crop = self.knowledge_base.get(crop_clean, {
+            "temp_optimal": (18.0, 28.0),
+            "humidity_optimal": (50.0, 75.0),
+            "rainfall_optimal": (40.0, 100.0),
+            "precautions": ["Follow standard moisture management."]
+        })
+
+        t_min, t_max = kb_crop.get("temp_optimal", (18.0, 28.0))
+        r_min, r_max = kb_crop.get("rainfall_optimal", (40.0, 100.0))
+
+        daily_alerts = []
+        highest_threat = "Low"
+
+        for idx, day in enumerate(forecast_days):
+            t_high = float(day.get("temp_max", 28.0))
+            t_low = float(day.get("temp_min", 20.0))
+            rain = float(day.get("rainfall", 0.0))
+            wind = float(day.get("wind_speed", 10.0))
+            w_code = int(day.get("weather_code", 0))
+
+            hazards = []
+            precautions = []
+            day_risk = "Low"
+
+            # 1. Thermal Stress
+            if t_high > (t_max + 3.0):
+                hazards.append(f"Excessive heat peak ({t_high:.1f}°C) exceeds {crop_clean} tolerance ({t_max}°C).")
+                precautions.append("Provide light irrigation during early morning or evening to lower root zone temperature.")
+                precautions.append("Apply anti-transpirant spray or mulch around crop rows.")
+                day_risk = "High"
+            elif t_high > t_max:
+                hazards.append(f"Moderate heat wave ({t_high:.1f}°C) may accelerate plant transpiration.")
+                precautions.append("Monitor soil moisture levels closely.")
+                if day_risk == "Low": day_risk = "Moderate"
+
+            if t_low < (t_min - 3.0):
+                hazards.append(f"Cold snap ({t_low:.1f}°C) threatens chilling injury to sensitive {crop_clean} tissues.")
+                precautions.append("Provide light surface irrigation at sunset to insulate the field canopy.")
+                day_risk = "High"
+
+            # 2. Precipitation / Storm / Flood
+            if rain >= 25.0:
+                hazards.append(f"Torrential rainfall ({rain:.1f} mm) threatens waterlogging, root asphyxiation, and fungal explosion.")
+                precautions.append("Open furrow drainage trenches immediately to prevent standing water.")
+                precautions.append("Postpone fertilizer and pesticide applications until soil drains.")
+                day_risk = "High"
+            elif rain >= 12.0:
+                hazards.append(f"Significant precipitation ({rain:.1f} mm) may elevate foliar disease pressure.")
+                precautions.append("Clear drainage channels and prepare protective copper/triazole fungicide.")
+                if day_risk == "Low": day_risk = "Moderate"
+
+            # 3. Gale Wind Force
+            if wind >= 28.0:
+                hazards.append(f"High wind velocity ({wind:.1f} km/h) risks crop lodging and stalk snapping.")
+                precautions.append("Provide mechanical staking or earthing up to support standing stalks.")
+                if day_risk != "High": day_risk = "Moderate"
+
+            # 4. Thunderstorm / Severe Hail
+            if w_code in [95, 96, 99]:
+                hazards.append("Thunderstorm & severe weather activity predicted.")
+                precautions.append("Avoid field machinery operations and protect nursery structures.")
+                day_risk = "High"
+
+            has_harm = len(hazards) > 0
+            if not hazards:
+                harm_summary = f"Favorable conditions. Weather parameters remain well-suited for {crop_clean} development."
+                precautions = ["Maintain routine scouting and adhere to regular fertilization schedule."]
+            else:
+                harm_summary = " ".join(hazards)
+
+            if day_risk == "High":
+                highest_threat = "High"
+            elif day_risk == "Moderate" and highest_threat != "High":
+                highest_threat = "Moderate"
+
+            daily_alerts.append({
+                "date": day.get("date", f"Day {idx+1}"),
+                "day_name": day.get("day_name", f"Day {idx+1}"),
+                "temp_max": t_high,
+                "temp_min": t_low,
+                "rainfall": rain,
+                "wind_speed": wind,
+                "condition": day.get("condition", "Partly Cloudy"),
+                "weather_code": w_code,
+                "risk_level": day_risk,
+                "has_harm": has_harm,
+                "harm_summary": harm_summary,
+                "precautions": precautions[:3]
+            })
+
+        summary = (
+            f"3-Day Forecast for {crop_clean}: Overall Threat Level is {highest_threat.upper()}. "
+            + ("Crop hazards detected; immediate precautions advised." if highest_threat != "Low" else "No adverse weather harm expected over the next 72 hours.")
+        )
+
+        return {
+            "crop": crop_clean,
+            "location": location_name,
+            "overall_threat_level": highest_threat,
+            "summary": summary,
+            "alerts": daily_alerts,
             "timestamp": datetime.utcnow().isoformat()
         }

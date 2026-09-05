@@ -1,12 +1,14 @@
-from fastapi import APIRouter, HTTPException, Header
+from fastapi import APIRouter, HTTPException, Header, Query
 from typing import Optional
-from Backend.schemas.api_schemas import PredictRequest, PredictResponse
+from Backend.schemas.api_schemas import PredictRequest, PredictResponse, ForecastAlertResponse
 from Backend.ai.predictor import CropGuardPredictor
 from Backend.services.supabase_service import SupabaseService
+from Backend.services.weather_service import WeatherService
 
 router = APIRouter(tags=["Crop Health Prediction"])
 predictor = CropGuardPredictor()
 supabase_service = SupabaseService()
+weather_service = WeatherService()
 
 @router.post("/predict", response_model=PredictResponse)
 async def predict_crop_health(
@@ -52,3 +54,25 @@ async def predict_crop_health(
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+
+@router.get("/predict/forecast-alerts", response_model=ForecastAlertResponse)
+async def get_crop_forecast_alerts(
+    crop: str = Query("Wheat", description="Crop name"),
+    city: Optional[str] = Query(None, description="City name"),
+    lat: Optional[float] = Query(None, description="Latitude"),
+    lon: Optional[float] = Query(None, description="Longitude")
+):
+    try:
+        forecast_days = await weather_service.get_3_day_forecast(
+            latitude=lat, longitude=lon, city_name=city
+        )
+        resolved_loc = forecast_days[0].get("location_name", city or "Local Farm") if forecast_days else (city or "Local Farm")
+        eval_result = predictor.evaluate_forecast_hazards(
+            crop=crop,
+            forecast_days=forecast_days,
+            location_name=resolved_loc
+        )
+        return ForecastAlertResponse(**eval_result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate forecast alerts: {str(e)}")
+

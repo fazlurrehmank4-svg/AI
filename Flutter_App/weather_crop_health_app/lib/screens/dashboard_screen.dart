@@ -9,6 +9,8 @@ import '../services/location_service.dart';
 import '../widgets/weather_card.dart';
 import '../widgets/health_score_gauge.dart';
 import '../widgets/risk_badge.dart';
+import '../widgets/forecast_alert_card.dart';
+import '../models/forecast_alert_model.dart';
 import 'crop_selection_screen.dart';
 import 'weather_screen.dart';
 import 'prediction_screen.dart';
@@ -30,6 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   CropModel _selectedCrop = CropModel.supportedCrops[0]; // Wheat
   WeatherModel? _weather;
   PredictionModel? _latestPrediction;
+  ForecastAlertModel? _forecastAlert;
   bool _isLoading = true;
   String _farmLocation = "Locating farm...";
 
@@ -56,10 +59,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
       userId: AuthService().currentUser?.id,
     );
 
+    // 4. Fetch 3-Day Crop Hazard & Forecast Alert
+    final fa = await _apiService.fetch3DayCropAlert(
+      crop: _selectedCrop.name,
+      city: cityToQuery,
+    );
+
     if (mounted) {
       setState(() {
         _weather = w;
         _latestPrediction = p;
+        _forecastAlert = fa;
         _farmLocation = w.locationName;
         _isLoading = false;
       });
@@ -82,9 +92,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       userId: AuthService().currentUser?.id,
     );
 
+    final fa = await _apiService.fetch3DayCropAlert(
+      crop: _selectedCrop.name,
+      city: w.locationName,
+    );
+
     if (mounted) {
       setState(() {
         _latestPrediction = p;
+        _forecastAlert = fa;
         _isLoading = false;
       });
     }
@@ -289,9 +305,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         weather: _weather!,
         userId: AuthService().currentUser?.id,
       );
+      final fa = await _apiService.fetch3DayCropAlert(
+        crop: newCrop.name,
+        city: _weather?.locationName ?? _farmLocation,
+      );
       if (mounted) {
         setState(() {
           _latestPrediction = p;
+          _forecastAlert = fa;
           _isLoading = false;
         });
       }
@@ -462,6 +483,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     // 3. Crop Health Prediction Overview Card
                     if (_latestPrediction != null) _buildHealthOverviewCard(context, _latestPrediction!),
                     const SizedBox(height: 20),
+
+                    // 4. 3-Day Crop Hazard & Forecast Alert Card
+                    if (_forecastAlert != null) ...[
+                      ForecastAlertCard(
+                        forecastAlert: _forecastAlert!,
+                        onRefresh: _loadDashboardData,
+                      ),
+                      const SizedBox(height: 20),
+                    ],
 
                     // 4. Action Buttons (Quick Prediction & Ask AI)
                     Row(

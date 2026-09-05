@@ -65,3 +65,26 @@ class ProfileSchema(BaseModel):
     full_name: Optional[str] = None
     farm_location: Optional[str] = None
     primary_crops: Optional[List[str]] = []
+
+class DailyForecastAlert(BaseModel):
+    date: str
+    day_name: str
+    temp_max: float
+    temp_min: float
+    rainfall: float
+    wind_speed: float
+    condition: str
+    weather_code: int
+    risk_level: str
+    has_harm: bool
+    harm_summary: str
+    precautions: List[str]
+
+class ForecastAlertResponse(BaseModel):
+    crop: str
+    location: str
+    overall_threat_level: str
+    summary: str
+    alerts: List[DailyForecastAlert]
+    timestamp: str
+

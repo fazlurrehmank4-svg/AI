@@ -22,3 +22,16 @@ async def get_weather(
         return data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch weather: {str(e)}")
+
+@router.get("/weather/forecast")
+async def get_weather_forecast(
+    city: Optional[str] = Query(None, description="City name (e.g. New Delhi, Pune, Nashik)"),
+    lat: Optional[float] = Query(None, description="Latitude coordinate"),
+    lon: Optional[float] = Query(None, description="Longitude coordinate")
+):
+    try:
+        data = await weather_service.get_3_day_forecast(latitude=lat, longitude=lon, city_name=city)
+        return {"forecast": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch 3-day forecast: {str(e)}")
+
