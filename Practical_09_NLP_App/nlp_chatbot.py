@@ -560,6 +560,32 @@ AGRICULTURAL_CORPUS = [
         "answer_en": "Irrigation guidelines: 1) Irrigate based on critical crop growth stages (crown root initiation, flowering, grain-filling); 2) Prefer early morning or evening irrigation to minimize evaporation; 3) Adopt drip or furrow irrigation to save 40-50% water and reduce fungal humidity stress; 4) Stop irrigation 10-15 days before harvest.",
         "answer_hi": "सिंचाई प्रबंधन के मुख्य नियम:\n1) फसल के महत्वपूर्ण चरणों में पानी अवश्य दें (जैसे कल्ले फूटते समय, फूल आने पर और दाना भरते समय)।\n2) हमेशा सुबह या शाम के समय सिंचाई करें ताकि वाष्पीकरण से पानी बर्बाद न हो।\n3) ड्रिप या फव्वारा सिंचाई अपनाएं जिससे 40% तक पानी बचता है और फफूंद का खतरा घटता है।\n4) फसल पकने और कटाई से 10-15 दिन पहले सिंचाई बंद कर दें।",
         "answer_ur": "آبپاشی کے بنیادی اور اہم اصول:\n1) فصل کے نازک مراحل (شاخیں نکلتے وقت، پھول آنے پر اور دانہ بنتے وقت) پر وتر لازمی رکھیں۔\n2) پانی ہمیشہ صبح کے وقت یا شام ڈھلے لگائیں تاکہ بخارات کی صورت میں پانی ضائع نہ ہو۔\n3) ڈرپ یا قطرہ قطرہ آبپاشی کا طریقہ اپنائیں تاکہ پانی کی بچت ہو اور فنگس کے حملے سے بچا جا سکے۔\n4) کٹائی سے 10 تا 15 دن قبل پانی دینا بند کر دیں۔"
+    },
+    {
+        "topic": "crop_yield_improvement",
+        "crop": "General",
+        "query_templates": [
+            "how to increase crop yield", "tips to improve production", "bumper harvest guide",
+            "paidavar kaise badhaye", "fasal ki upaj badhane ke upay", "पैदावार कैसे बढ़ाएं",
+            "फसल की उपज बढ़ाने के उपाय", "अधिक उत्पादन कैसे प्राप्त करें", "बंपर पैदावार की तकनीक",
+            "پیداوار بڑھانے کے طریقے", "فصل کی پیداوار میں اضافہ کیسے کریں", "اچھی فصل اور زیادہ پیداوار"
+        ],
+        "answer_en": "5 Golden Rules to Maximize Crop Yield:\n1) Certified Seeds & Bio-Treatment: Inoculate seeds with Trichoderma or Rhizobium prior to sowing.\n2) Balanced NPK + Micronutrients: Avoid urea overuse; provide balanced Basal DAP, Potash, and foliar Zinc/Boron.\n3) Critical Irrigation Timing: Maintain root-zone moisture during tillering, flowering, and grain filling.\n4) Weed Management: Eliminate weeds within the first 25-30 days to stop nutrient competition.\n5) Integrated Pest Management: Apply preventive neem oil (5ml/L) and install pheromone/yellow sticky traps.",
+        "answer_hi": "🌾 **फसल की बंपर पैदावार प्राप्त करने के 5 मुख्य वैज्ञानिक नियम:**\n\n1) **प्रमाणित बीज एवं बीज शोधन:** बुवाई से पहले बीजों को ट्राइकोडर्मा या फफूंदनाशक से उपचारित करें।\n2) **संतुलित खाद (NPK + सूक्ष्म पोषक):** सिर्फ यूरिया पर निर्भर न रहें; डीएपी, पोटाश, जिंक और सल्फर का संतुलित प्रयोग करें।\n3) **क्रांतिक अवस्थाओं पर सिंचाई:** कल्ले फूटते समय, फूल आने पर और दाना भरते समय खेत में नमी बनाए रखें।\n4) **खरपतवार नियंत्रण:** बुवाई के 20-30 दिनों के भीतर निराई-गुड़ाई करके खरपतवार हटाएं ताकि खाद की बर्बादी न हो।\n5) **एकीकृत कीट प्रबंधन:** कीटों के शुरुआती प्रकोप पर नीम तेल (5ml/लीटर) और पीले चिपचिपे ट्रैप का उपयोग करें।",
+        "answer_ur": "🌾 **فصل کی شاندار پیداوار حاصل کرنے کے 5 سنہری اصول:**\n\n1) **تصدیق شدہ بیج اور بیج کا علاج:** بوائی سے قبل بیج کو فنگس کش دوا یا ٹرائیکوڈرما سے ٹریٹ کریں۔\n2) **متوازن کھاد کا استعمال:** مٹی کے ٹیسٹ کی بنیاد پر ڈی اے پی، یوریا، پوٹاش اور زنک کی متوازن مقدار دیں۔\n3) **نازک مراحل پر بروقت آبپاشی:** شاخیں نکلتے وقت، پھول آنے پر اور دانہ بنتے وقت وتر کی کمی نہ ہونے دیں۔\n4) **جڑی بوٹیوں کی تلفی:** فصل کے ابتدائی 30 دنوں میں جڑی بوٹیاں تلف کریں تاکہ کھاد اور پانی ضائع نہ ہو۔\n5) **بروقت کیڑوں کی روک تھام:** رس چوسنے والے کیڑوں کے لیے شروع میں نیم کا تیل اور پیلے اسٹیکی کارڈز استعمال کریں۔"
+    },
+    {
+        "topic": "pest_control_and_insects",
+        "crop": "General",
+        "query_templates": [
+            "how to control insects and pests", "safed makkhi keede se bachav", "pest attack remedy",
+            "keede lag gaye hai kya kare", "fasal me keede se kaise bache", "कीड़े लग गए हैं क्या करें",
+            "फसल में कीड़ों से बचाव के उपाय", "सफेद मक्खी और सुंडी की रोकथाम", "कीट प्रबंधन",
+            "کیڑوں سے بچاؤ کے طریقے", "فصل میں کیڑے لگ جائیں تو کیا کریں", "سنڈی اور سفید مکھی کا علاج"
+        ],
+        "answer_en": "Integrated Pest Management (IPM) Protocols:\n1) Sap-Sucking Pests (Whiteflies, Aphids, Thrips): Install yellow sticky traps (15-20 per acre) and spray 5ml/L cold-pressed neem oil.\n2) Caterpillars, Borers & Armyworms: Spray Emamectin Benzoate 5% SG or Bacillus thuringiensis (Bt) at initial larval stages.\n3) Application Rules: Spray during cool morning or evening hours with wind speed < 12 km/h; avoid midday heat.",
+        "answer_hi": "🐛 **फसल सुरक्षा एवं कीट प्रबंधन मार्गदर्शिका:**\n\n• **रस चूसक कीट (सफेद मक्खी, माहू, थ्रिप्स):** खेत में पीले चिपचिपे ट्रैप लगाएं और 5ml/लीटर नीम तेल का छिड़काव करें।\n• **सुंडी एवं तना छेदक कीट:** प्रारंभिक प्रकोप पर इमामेक्टिन बेंजोएट (5% SG) या जैविक कीटनाशक का प्रयोग करें।\n• **छिड़काव नियम:** हमेशा सुबह या शाम के शांत समय में स्प्रे करें, तेज धूप में छिड़काव न करें।",
+        "answer_ur": "🐛 **فصلوں میں کیڑوں کے جامع انسداد کی گائیڈ:**\n\n• **رس چوسنے والے کیڑے (سفید مکھی، تھرپس):** پیلے چپکنے والے کارڈز (Yellow Traps) لگائیں اور نیم کا تیل (5ml فی لیٹر) اسپرے کریں۔\n• **تنے کی سنڈی اور فال آرمی ورم:** ابتدائی حالت میں ایما مائل بینزویٹ یا تجویز کردہ کیڑے مار دوا دیں۔\n• **حفاظتی اقدام:** دوپہر کی شدید دھوپ میں اسپرے نہ کریں تاکہ دوا کا پورا اثر ہو۔"
     }
 ]
 
@@ -596,11 +622,22 @@ class LocalFarmerChatbot:
             except Exception:
                 pass
 
-        # Build TF-IDF index over both base corpus and learned dynamic entries
+        # Load Trained Urdu Instruction Model
+        self.urdu_instruct_model = []
+        urdu_model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "urdu_ai_model.json")
+        if os.path.exists(urdu_model_path):
+            try:
+                with open(urdu_model_path, "r", encoding="utf-8") as f:
+                    u_data = json.load(f)
+                    self.urdu_instruct_model = u_data.get("instruction_dataset", [])
+            except Exception:
+                pass
+
+        # Build TF-IDF index over base corpus, knowledge_base crops, urdu instruct, and learned entries
         self.rebuild_index()
 
     def rebuild_index(self) -> None:
-        """Rebuilds the TF-IDF retrieval matrix combining base corpus and learned entries."""
+        """Rebuilds the TF-IDF retrieval matrix combining base corpus, crop knowledge base, Urdu instruct model, and learned entries."""
         self.corpus_entries = []
         self.corpus_documents = []
 
@@ -616,7 +653,66 @@ class LocalFarmerChatbot:
             self.corpus_entries.append(entry)
             self.corpus_documents.append(clean_text)
 
-        # 2. Ingest Dynamically Learned Entries from Self-Learning Engine
+        # 2. Ingest All Crops from Crop Knowledge Base in Multilingual Form
+        for crop_name, c_info in self.knowledge_base.items():
+            crop_hi = CROP_HINDI_NAMES.get(crop_name, crop_name)
+            crop_ur = CROP_URDU_NAMES.get(crop_name, crop_name)
+            
+            # Crop Profile Entry
+            profile_entry = {
+                "topic": f"{crop_name.lower()}_agronomic_guide",
+                "crop": crop_name,
+                "query_templates": [
+                    f"{crop_name} farming guide", f"{crop_name} cultivation", f"{crop_name} requirements",
+                    f"{crop_hi} की खेती", f"{crop_hi} की जानकारी", f"{crop_hi} का मौसम",
+                    f"{crop_ur} کی کاشت", f"{crop_ur} کی معلومات", f"{crop_ur} کا طریقہ"
+                ],
+                "answer_en": f"{crop_name} optimal conditions: Temp {c_info.get('temp_optimal', (20,30))[0]}-{c_info.get('temp_optimal', (20,30))[1]}°C, Humidity {c_info.get('humidity_optimal', (50,70))[0]}-{c_info.get('humidity_optimal', (50,70))[1]}%, Rainfall {c_info.get('rainfall_optimal', (50,150))[0]}-{c_info.get('rainfall_optimal', (50,150))[1]} mm. Soil: {c_info.get('soil_type', 'Loam')}.",
+                "answer_hi": f"{crop_hi} की सफल खेती के लिए अनुकूल तापमान {c_info.get('temp_optimal', (20,30))[0]}°C से {c_info.get('temp_optimal', (20,30))[1]}°C, नमी {c_info.get('humidity_optimal', (50,70))[0]}% से {c_info.get('humidity_optimal', (50,70))[1]}% और उपयुक्त मिट्टी {c_info.get('soil_type', 'दोमट')} है।",
+                "answer_ur": f"{crop_ur} کی اچھی پیداوار کے لیے موزوں درجہ حرارت {c_info.get('temp_optimal', (20,30))[0]}°C تا {c_info.get('temp_optimal', (20,30))[1]}°C، ہوا میں نمی {c_info.get('humidity_optimal', (50,70))[0]}% تا {c_info.get('humidity_optimal', (50,70))[1]}% اور موزوں زمین {c_info.get('soil_type', 'زرخیز میرا')} ہے۔"
+            }
+            clean_text = self.preprocess_text(" ".join(profile_entry["query_templates"]) + " " + profile_entry["answer_en"] + " " + profile_entry["answer_hi"] + " " + profile_entry["answer_ur"])
+            self.corpus_entries.append(profile_entry)
+            self.corpus_documents.append(clean_text)
+
+            # Crop Precautions Entry
+            precautions_hi = CROP_PRECAUTIONS_HI.get(crop_name, [])
+            precautions_ur = CROP_PRECAUTIONS_UR.get(crop_name, [])
+            precautions_en = c_info.get("precautions", [])
+            prec_entry = {
+                "topic": f"{crop_name.lower()}_precautions",
+                "crop": crop_name,
+                "query_templates": [
+                    f"{crop_name} precautions", f"{crop_name} care guidelines", f"{crop_name} protection",
+                    f"{crop_hi} की सावधानियां", f"{crop_hi} का बचाव", f"{crop_hi} की सुरक्षा",
+                    f"{crop_ur} کی احتیاطی تدابیر", f"{crop_ur} کا بچاؤ", f"{crop_ur} کی دیکھ بھال"
+                ],
+                "answer_en": f"🌾 **Key Precautions & Protection Guidelines for {crop_name}:**\n\n" + "\n".join([f"{i+1}. {p}" for i, p in enumerate(precautions_en[:4])]),
+                "answer_hi": f"🌾 **{crop_hi} की फसल के लिए मुख्य सावधानियां:**\n\n" + "\n".join([f"{i+1}. {p}" for i, p in enumerate(precautions_hi[:4]) if precautions_hi] or [f"{i+1}. {p}" for i, p in enumerate(precautions_en[:4])]),
+                "answer_ur": f"🌾 **{crop_ur} کی فصل کے لیے اہم احتیاطی تدابیر:**\n\n" + "\n".join([f"{i+1}. {p}" for i, p in enumerate(precautions_ur[:4]) if precautions_ur] or [f"{i+1}. {p}" for i, p in enumerate(precautions_en[:4])])
+            }
+            clean_text = self.preprocess_text(" ".join(prec_entry["query_templates"]) + " " + prec_entry["answer_en"] + " " + prec_entry["answer_hi"] + " " + prec_entry["answer_ur"])
+            self.corpus_entries.append(prec_entry)
+            self.corpus_documents.append(clean_text)
+
+        # 3. Ingest Urdu Instruction Dataset
+        for item in self.urdu_instruct_model:
+            inst = item.get("instruction", "")
+            inp = item.get("input", "")
+            out = item.get("output", "")
+            u_entry = {
+                "topic": "urdu_instruct_qa",
+                "crop": "General",
+                "query_templates": [inst, inp],
+                "answer_en": out,
+                "answer_hi": out,
+                "answer_ur": out
+            }
+            clean_text = self.preprocess_text(inst + " " + inp + " " + out)
+            self.corpus_entries.append(u_entry)
+            self.corpus_documents.append(clean_text)
+
+        # 4. Ingest Dynamically Learned Entries from Self-Learning Engine
         learned_entries = self.self_learning_engine.get_learned_corpus()
         for entry in learned_entries:
             combined_text = (
@@ -629,7 +725,12 @@ class LocalFarmerChatbot:
             self.corpus_entries.append(entry)
             self.corpus_documents.append(clean_text)
 
-        self.vectorizer = TfidfVectorizer(ngram_range=(1, 2))
+        # Build Unicode-aware TF-IDF Vectorizer
+        self.vectorizer = TfidfVectorizer(
+            ngram_range=(1, 2),
+            token_pattern=r'[\u0900-\u097F\u0600-\u06FF\w]+',
+            min_df=1
+        )
         self.tfidf_matrix = self.vectorizer.fit_transform(self.corpus_documents)
 
     def detect_language(self, text: str) -> str:
@@ -748,7 +849,7 @@ class LocalFarmerChatbot:
             }
 
         cleaned_query = self.preprocess_text(question)
-        detected_crop = self.detect_crop_in_text(question) or active_crop
+        detected_crop = self.detect_crop_in_text(question) or active_crop or (current_prediction.get("crop") if current_prediction else None)
         lower_raw = self.normalize_urdu(question.lower())
 
         curr_weather = {}
@@ -756,6 +857,102 @@ class LocalFarmerChatbot:
             curr_weather = current_prediction["weather"]
 
         result = None
+
+        # =========================================================================
+        # INTENT -1: Active Prediction Context Follow-up ("What should I do?", etc.)
+        # =========================================================================
+        is_advice_query = any(w in lower_raw for w in [
+            "what should i do", "what to do", "how to proceed", "advice", "recommendation", "kya karu", "kya kare",
+            "kya karna chahiye", "kya upchar kare", "کیا کروں", "کیا کریں", "کیا کرنا چاہیے", "کیا تدبیر ہے",
+            "क्या करूं", "क्या करें", "क्या करना चाहिए", "क्या उपाय करें"
+        ])
+
+        if current_prediction and is_advice_query:
+            c_name = current_prediction.get("crop", detected_crop or "Crop")
+            h_status = current_prediction.get("health_status", "Evaluated")
+            r_level = current_prediction.get("risk_level", "Moderate")
+            causes = current_prediction.get("causes", [])
+            precautions = current_prediction.get("precautions", [])
+            explanation = current_prediction.get("ai_explanation", "")
+
+            if is_urdu:
+                crop_disp = CROP_URDU_NAMES.get(c_name, c_name)
+                prec_list = "\n".join([f"• {p}" for p in precautions[:3]]) if precautions else "• کھیت میں مناسب وتر اور نکاسی رکھیں۔"
+                causes_list = "\n".join([f"• {c}" for c in causes[:2]]) if causes else ""
+                ans = (
+                    f"🌾 **{crop_disp} کی موجودہ حالت ({h_status} - خطرہ: {r_level}):**\n\n"
+                    f"**اہم حفاظتی تدابیر:**\n{prec_list}\n\n"
+                    + (f"**وجوہات:**\n{causes_list}\n\n" if causes_list else "")
+                    + f"**تجزیہ:** {explanation}"
+                )
+            elif is_hindi:
+                crop_disp = CROP_HINDI_NAMES.get(c_name, c_name)
+                prec_list = "\n".join([f"• {p}" for p in precautions[:3]]) if precautions else "• खेत में उचित नमी और जल निकासी बनाए रखें।"
+                causes_list = "\n".join([f"• {c}" for c in causes[:2]]) if causes else ""
+                ans = (
+                    f"🌾 **{crop_disp} की वर्तमान स्थिति ({h_status} - जोखिम: {r_level}):**\n\n"
+                    f"**मुख्य सावधानियां एवं उपाय:**\n{prec_list}\n\n"
+                    + (f"**कारण:**\n{causes_list}\n\n" if causes_list else "")
+                    + f"**विश्लेषण:** {explanation}"
+                )
+            else:
+                prec_list = "\n".join([f"• {p}" for p in precautions[:3]]) if precautions else "• Maintain optimal field drainage and soil moisture."
+                causes_list = "\n".join([f"• {c}" for c in causes[:2]]) if causes else ""
+                ans = (
+                    f"🌾 **Current Analysis for {c_name} ({h_status} - Risk: {r_level}):**\n\n"
+                    f"**Recommended Actions & Precautions:**\n{prec_list}\n\n"
+                    + (f"**Causes Identified:**\n{causes_list}\n\n" if causes_list else "")
+                    + f"**AI Explanation:** {explanation}"
+                )
+
+            result = {
+                "answer": ans,
+                "confidence": 0.96,
+                "matched_topic": f"{c_name.lower()}_context_advice",
+                "category": "context_advisory",
+                "reasoning_summary": f"Synthesized advice from active prediction context for {c_name}."
+            }
+
+        # =========================================================================
+        # INTENT 0: Greetings & Conversational Introductions (Hindi, Urdu, English)
+        # =========================================================================
+        greeting_patterns = [
+            r'\b(?:namaste|namaskar|pranam|ram ram|radhe radhe|kaise ho|kya haal|kaise hain|kya hal)\b',
+            r'(?:नमस्ते|नमस्कार|प्रणाम|राम राम|कैसे हो|कैसे हैं|क्या हाल|हालचाल)',
+            r'\b(?:salam|assalam|adaab|kese ho|kia hal|kia haal|khush amdeed|khushamdeed)\b',
+            r'(?:سلام|السلام علیکم|آداب|کیسے ہیں|کیسے ہو|کیا حال|خیریت)',
+            r'\b(?:hello|hey|good morning|good afternoon|good evening|how are you|who are you|what can you do)\b',
+            r'^(?:hi|salam|hello)$'
+        ]
+        is_greeting = any(re.search(p, lower_raw) for p in greeting_patterns)
+
+        if is_greeting:
+            if is_urdu:
+                ans = (
+                    "وعلیکم السلام! میں **CropGuard AI معاون** ہوں، آپ کا مقامی زرعی اور موسمیاتی مشیر۔\n\n"
+                    "میں فصلوں کی حفاظت، امراض کی تشخیص، موسمی خطرات، کھاد اور اسپرے کے شیڈول میں آپ کی مدد کے لیے تیار ہوں۔\n\n"
+                    "آپ مجھ سے کسی بھی فصل کے بارے میں سوال پوچھ سکتے ہیں یا نیچے دیے گئے تجاویز پر کلک کر سکتے ہیں۔"
+                )
+            elif is_hindi:
+                ans = (
+                    "नमस्ते! मैं **CropGuard AI सहायक** हूँ, आपका स्थानीय कृषि एवं मौसम सलाहकार।\n\n"
+                    "मैं फसलों के स्वास्थ्य, रोग निवारण, मौसम के खतरे, खाद और कीटनाशक छिड़काव के नियमों में आपकी पूरी सहायता कर सकता हूँ।\n\n"
+                    "आप मुझसे किसी भी फसल के बारे में पूछ सकते हैं या नीचे दिए गए सुझावों में से चुन सकते हैं।"
+                )
+            else:
+                ans = (
+                    "Namaste! I am the **CropGuard AI Assistant**, your local agricultural intelligence advisor.\n\n"
+                    "I am ready to help you with crop disease diagnosis, weather hazard assessment, fertilizer schedules, and precautions.\n\n"
+                    "Feel free to ask any question about your crops or current weather conditions."
+                )
+
+            result = {
+                "answer": ans,
+                "confidence": 0.98,
+                "matched_topic": "greeting_conversation",
+                "category": "conversation",
+                "reasoning_summary": "Handled multilingual farmer greeting."
+            }
 
         # =========================================================================
         # INTENT 1: Crop Disease / Pest / Symptoms / Probable Problems / Damage / Risks
@@ -1095,72 +1292,172 @@ class LocalFarmerChatbot:
             }
 
         # =========================================================================
-        # INTENT 7: TF-IDF Similarity Retrieval over Agricultural & Learned Corpus
+        # INTENT 7: Cross-Lingual & Syntactically-Expanded TF-IDF Retrieval
         # =========================================================================
         if not result and cleaned_query.strip():
-            query_vec = self.vectorizer.transform([cleaned_query])
-            similarities = cosine_similarity(query_vec, self.tfidf_matrix)[0]
-            best_idx = int(np.argmax(similarities))
-            best_score = float(similarities[best_idx])
+            # Build cross-lingual expanded query using learned syntactic alignments
+            expanded_tokens = cleaned_query.split()
+            if self.syntactic_model:
+                h_to_u = self.syntactic_model.get("hindi_to_urdu_lexicon", {})
+                u_to_h = self.syntactic_model.get("urdu_to_hindi_lexicon", {})
+                for tok in cleaned_query.split():
+                    if tok in h_to_u and h_to_u[tok]:
+                        expanded_tokens.append(h_to_u[tok][0][0])
+                    elif tok in u_to_h and u_to_h[tok]:
+                        expanded_tokens.append(u_to_h[tok][0][0])
 
-            if best_score >= 0.12:
-                matched_entry = self.corpus_entries[best_idx]
-                confidence_pct = round(min(0.96, best_score * 1.35), 2)
-                if is_urdu:
-                    ans = matched_entry.get("answer_ur") or matched_entry.get("answer_en", "")
-                elif is_hindi:
-                    ans = matched_entry.get("answer_hi") or matched_entry.get("answer_en", "")
-                else:
-                    ans = matched_entry.get("answer_en", "")
+            search_query = " ".join(expanded_tokens)
+            try:
+                query_vec = self.vectorizer.transform([search_query])
+                similarities = cosine_similarity(query_vec, self.tfidf_matrix)[0]
+                best_idx = int(np.argmax(similarities))
+                best_score = float(similarities[best_idx])
 
-                result = {
-                    "answer": ans,
-                    "confidence": confidence_pct,
-                    "matched_topic": matched_entry.get("topic", "general_qa"),
-                    "category": "retrieval_qa",
-                    "reasoning_summary": f"Matched topic '{matched_entry.get('topic')}' via multilingual TF-IDF similarity ({best_score:.3f})."
-                }
+                if best_score >= 0.05:
+                    matched_entry = self.corpus_entries[best_idx]
+                    confidence_pct = round(min(0.96, max(0.72, best_score * 1.8)), 2)
+                    if is_urdu:
+                        ans = matched_entry.get("answer_ur") or matched_entry.get("answer_en", "")
+                    elif is_hindi:
+                        ans = matched_entry.get("answer_hi") or matched_entry.get("answer_en", "")
+                    else:
+                        ans = matched_entry.get("answer_en", "")
+
+                    result = {
+                        "answer": ans,
+                        "confidence": confidence_pct,
+                        "matched_topic": matched_entry.get("topic", "general_qa"),
+                        "category": "retrieval_qa",
+                        "reasoning_summary": f"Matched topic '{matched_entry.get('topic')}' via syntactic TF-IDF similarity ({best_score:.3f})."
+                    }
+            except Exception:
+                pass
 
         # =========================================================================
-        # FALLBACK: Multilingual Safe Contextual Guidance
+        # INTENT 8: Intelligent Domain Agricultural Advisory & Out-of-Domain Guard
         # =========================================================================
         if not result:
-            crop_name = detected_crop or "your crop"
-            if is_urdu:
-                fallback = (
-                    f"میں آپ کے اس سوال کا جواب تلاش نہیں کر سکا۔\n\n"
-                    f"آپ **{crop_name}** یا کسی بھی فصل کے بارے میں یہ پوچھ سکتے ہیں:\n"
-                    f"1. **امراض اور مسائل:** ممکنہ بیماریاں اور ان کا علاج،\n"
-                    f"2. **موسمی خطرات:** درجہ حرارت، بارش یا گرمی کا اثر،\n"
-                    f"3. **کھاد اور اسپرے:** یوریا اور فنگس کش دوا کا شیڈول،\n"
-                    f"4. **احتیاطی تدابیر:** فصل کی نگہداشت کے رہنما اصول۔"
-                )
-            elif is_hindi:
-                fallback = (
-                    f"मैं आपके इस विशिष्ट प्रश्न का पूरा उत्तर नहीं ढूंढ पाया।\n\n"
-                    f"आप **{crop_name}** या किसी भी फसल से संबंधित निम्न प्रश्न पूछ सकते हैं:\n"
-                    f"1. **संभावित समस्याएं व रोग:** मुख्य बीमारियां और उपचार,\n"
-                    f"2. **मौसम का खतरा:** वर्तमान तापमान और नमी का प्रभाव,\n"
-                    f"3. **खाद एवं स्प्रे:** यूरिया व कीटनाशक छिड़काव के नियम,\n"
-                    f"4. **सावधानियां:** फसल सुरक्षा के मुख्य दिशानिर्देश।"
-                )
-            else:
-                fallback = (
-                    f"I couldn't find a direct answer to that specific phrasing for **{crop_name}**.\n\n"
-                    f"You can ask me about:\n"
-                    f"1. **Probable Problems:** Diseases, pests, and symptoms for {crop_name},\n"
-                    f"2. **Weather Hazards:** Current temperature, humidity, and rain impact,\n"
-                    f"3. **Fertilizer & Spray:** Urea schedule, bio-fungicide rules, and timing,\n"
-                    f"4. **Precautions:** Key protection checklist for your farm."
-                )
+            agri_keywords = [
+                "crop", "crops", "farm", "farming", "farmer", "plant", "plants", "field", "soil", "agriculture",
+                "weather", "rain", "temperature", "humidity", "fertilizer", "pest", "disease", "yield", "water", "irrigate",
+                "fasal", "kheti", "kisan", "paani", "mausam", "khad", "keeda", "rog", "bimari", "upaj", "paidavar", "zameen", "mitti",
+                "फसल", "खेती", "किसान", "पानी", "मौसम", "खाद", "कीड़ा", "रोग", "बीमारी", "उपज", "पैदावार", "मिट्टी", "जमीन",
+                "فصل", "کاشتکاری", "کسان", "پانی", "موسم", "کھاد", "کیڑا", "بیماری", "امراض", "پیداوار", "زمین", "مٹی", "آبپاشی"
+            ]
+            is_agri_related = detected_crop is not None or any(w in lower_raw for w in agri_keywords)
 
-            result = {
-                "answer": fallback,
-                "confidence": 0.40,
-                "matched_topic": "fallback_help",
-                "category": "system",
-                "reasoning_summary": "Provided contextual fallback guidance."
-            }
+            crop_name = detected_crop or ("आपकी फसल" if is_hindi else ("آپ کی فصل" if is_urdu else "your crop"))
+
+            if any(w in lower_raw for w in ["paidavar", "utpadan", "yield", "achhi fasal", "پیداوار", "پیداوار بڑھانے", "पैदावार", "उत्पादन"]):
+                if is_urdu:
+                    adv = (
+                        "🌾 **فصل کی شاندار پیداوار حاصل کرنے کے 5 سنہری اصول:**\n\n"
+                        "1) **تصدیق شدہ بیج اور بیج کا علاج:** بوائی سے قبل بیج کو فنگس کش دوا یا ٹرائیکوڈرما سے ٹریٹ کریں۔\n"
+                        "2) **متوازن کھاد کا استعمال:** مٹی کے ٹیسٹ کی بنیاد پر ڈی اے پی، یوریا اور پوٹاش کی متوازن مقدار دیں۔\n"
+                        "3) **نازک مراحل پر بروقت آبپاشی:** پھول آنے اور دانہ بننے کے وقت وتر کی کمی نہ ہونے دیں۔\n"
+                        "4) **جڑی بوٹیوں کی تلفی:** فصل کے ابتدائی 30 دنوں میں جڑی بوٹیاں تلف کریں تاکہ کھاد اور پانی ضائع نہ ہو۔\n"
+                        "5) **بروقت کیڑوں کی روک تھام:** رس چوسنے والے کیڑوں کے لیے شروع میں نیم کا تیل اسپرے کریں۔"
+                    )
+                elif is_hindi:
+                    adv = (
+                        "🌾 **फसल की बंपर पैदावार प्राप्त करने के 5 मुख्य वैज्ञानिक नियम:**\n\n"
+                        "1) **प्रमाणित बीज एवं बीज शोधन:** बुवाई से पहले बीजों को ट्राइकोडर्मा या फफूंदनाशक से उपचारित करें।\n"
+                        "2) **संतुलित खाद (NPK):** सिर्फ यूरिया पर निर्भर न रहें; डीएपी, पोटाश और जिंक का संतुलित प्रयोग करें।\n"
+                        "3) **क्रांतिक अवस्थाओं पर सिंचाई:** कल्ले फूटते समय, फूल आने पर और दाना भरते समय नमी बनाए रखें।\n"
+                        "4) **खरपतवार नियंत्रण:** बुवाई के 20-30 दिनों के भीतर निराई-गुड़ाई करके खरपतवार हटाएं।\n"
+                        "5) **जैविक कीट रोकथाम:** सफेद मक्खी व थ्रिप्स के लिए नीम तेल (5ml/लीटर) का सुरक्षात्मक छिड़काव करें।"
+                    )
+                else:
+                    adv = (
+                        "🌾 **5 Golden Rules for Maximum Crop Yield:**\n\n"
+                        "1) **Certified Seeds & Seed Treatment:** Treat seeds with bio-fungicides prior to sowing.\n"
+                        "2) **Balanced Nutrition (NPK + Zinc):** Apply balanced basal DAP/Potash and split nitrogen.\n"
+                        "3) **Critical Stage Irrigation:** Never let the field suffer water stress during flowering & grain-filling.\n"
+                        "4) **Weed Control:** Clear weeds within the first 30 days of growth.\n"
+                        "5) **Integrated Pest Management:** Apply preventive neem oil or bio-pesticides at first sign of infestation."
+                    )
+                result = {
+                    "answer": adv,
+                    "confidence": 0.88,
+                    "matched_topic": "domain_advisory_synthesis",
+                    "category": "agronomic_advisory",
+                    "reasoning_summary": "Synthesized actionable agronomic yield advisory."
+                }
+            elif any(w in lower_raw for w in ["keeda", "keede", "pest", "insect", "sundi", "कीड़ा", "कीड़े", "सुंडी", "کیڑا", "کیڑے", "سنڈی"]):
+                if is_urdu:
+                    adv = (
+                        "🐛 **فصلوں میں کیڑوں کے جامع انسداد کی گائیڈ:**\n\n"
+                        "• **رس چوسنے والے کیڑے (سفید مکھی، تھرپس):** پیلے چپکنے والے کارڈز (Yellow Traps) لگائیں اور نیم کا تیل (5ml فی لیٹر) اسپرے کریں۔\n"
+                        "• **تنے کی سنڈی اور فال آرمی ورم:** ابتدائی حالت میں ایما مائل بینزویٹ یا تجویز کردہ کیڑے مار دوا دیں۔\n"
+                        "• **حفاظتی اقدام:** دوپہر کی شدید دھوپ میں اسپرے نہ کریں تاکہ دوا کا پورا اثر ہو۔"
+                    )
+                elif is_hindi:
+                    adv = (
+                        "🐛 **फसल सुरक्षा एवं कीट प्रबंधन मार्गदर्शिका:**\n\n"
+                        "• **रस चूसक कीट (सफेद मक्खी, माहू, थ्रिप्स):** खेत में पीले चिपचिपे ट्रैप लगाएं और 5ml/लीटर नीम तेल का छिड़काव करें।\n"
+                        "• **सुंडी एवं तना छेदक कीट:** प्रारंभिक प्रकोप पर इमामेक्टिन बेंजोएट या जैविक कीटनाशक का प्रयोग करें।\n"
+                        "• **छिड़काव नियम:** हमेशा सुबह या शाम के शांत समय में स्प्रे करें।"
+                    )
+                else:
+                    adv = (
+                        "🐛 **Comprehensive Integrated Pest Management (IPM):**\n\n"
+                        "• **Sap-Sucking Pests (Whitefly, Thrips, Aphids):** Deploy yellow sticky traps and spray neem oil (5ml/L).\n"
+                        "• **Caterpillars & Borers:** Apply Emamectin Benzoate or recommended bio-pesticides.\n"
+                        "• **Spraying Rule:** Apply early morning or evening for optimal residual efficacy."
+                    )
+                result = {
+                    "answer": adv,
+                    "confidence": 0.88,
+                    "matched_topic": "domain_advisory_synthesis",
+                    "category": "agronomic_advisory",
+                    "reasoning_summary": "Synthesized actionable agronomic pest advisory."
+                }
+            elif is_agri_related:
+                if is_urdu:
+                    adv = (
+                        f"🌱 **{crop_name} کی زراعت اور حفاظت کے بنیادی رہنما اصول:**\n\n"
+                        f"1) **پانی اور وتر:** زمین میں مناسب وتر رکھیں اور پانی کھڑا نہ ہونے دیں،\n"
+                        f"2) **امراض سے بچاؤ:** نمی زیادہ ہونے کی صورت میں فنگس کش دوا کا بروقت اسپرے کریں،\n"
+                        f"3) **کھاد کا انتظام:** فاسفورس بوائی کے وقت اور نائٹروجن (یوریا) کو 2 تا 3 قسطوں میں دیں،\n"
+                        f"4) **نگہداشت:** پودوں کا باقاعدگی سے معائنہ کریں تاکہ بیماریوں کا بر وقت تدارک ہو سکے۔"
+                    )
+                elif is_hindi:
+                    adv = (
+                        f"🌱 **{crop_name} की खेती एवं फसल सुरक्षा के प्रमुख दिशानिर्देश:**\n\n"
+                        f"1) **सिंचाई व जल निकासी:** खेत में जलभराव न होने दें और उचित समय पर पानी लगाएं,\n"
+                        f"2) **रोग एवं फफूंद से बचाव:** अधिक नमी में कॉपर फफूंदनाशक का सुरक्षात्मक छिड़काव करें,\n"
+                        f"3) **संतुलित उर्वरक:** बुवाई के समय डीएपी/पोटाश और वृद्धि के समय यूरिया को किस्तों में दें,\n"
+                        f"4) **नियमित निगरानी:** कीटों और पत्तियों के रंग की साप्ताहिक जांच करें।"
+                    )
+                else:
+                    adv = (
+                        f"🌱 **Core Agronomic Care & Best Practices for {crop_name}:**\n\n"
+                        f"1) **Soil & Moisture:** Maintain adequate root-zone aeration and avoid prolonged standing water,\n"
+                        f"2) **Disease Prevention:** Apply preventive bio-fungicide during humid microclimates,\n"
+                        f"3) **Balanced Fertilization:** Apply basal DAP/Potash and top-dress Urea in split doses,\n"
+                        f"4) **Scouting:** Inspect underside of leaves weekly for early pathogen detection."
+                    )
+                result = {
+                    "answer": adv,
+                    "confidence": 0.88,
+                    "matched_topic": "domain_advisory_synthesis",
+                    "category": "agronomic_advisory",
+                    "reasoning_summary": "Synthesized actionable agronomic advisory."
+                }
+            else:
+                if is_urdu:
+                    adv = "میں CropGuard AI معاون ہوں، جو خصوصی طور پر زراعت، فصلوں اور موسم کے لیے تیار کیا گیا ہے۔ میرے پاس اس غیر زرعی سوال کے لیے کافی معلومات نہیں ہیں۔ براہ کرم فصل، بیماریوں، کھاد یا موسم کے بارے میں پوچھیں۔"
+                elif is_hindi:
+                    adv = "मैं CropGuard AI सहायक हूँ, जो विशेष रूप से कृषि, फसलों और मौसम के लिए तैयार किया गया है। मेरे पास इस गैर-कृषि प्रश्न के लिए पर्याप्त ज्ञान उपलब्ध नहीं है। कृपया फसल, रोग, खाद या मौसम के बारे में पूछें।"
+                else:
+                    adv = "I do not have sufficient agricultural knowledge to answer that query, as I am specialized strictly in crops, agriculture, plant diseases, fertilizers, and weather. Please ask an agriculture-related question."
+                result = {
+                    "answer": adv,
+                    "confidence": 0.20,
+                    "matched_topic": "out_of_domain",
+                    "category": "system",
+                    "reasoning_summary": "Query is outside agricultural and weather domain."
+                }
 
         # Autonomous Continuous Self-Learning Ingestion
         try:
@@ -1170,7 +1467,7 @@ class LocalFarmerChatbot:
                 active_crop=detected_crop,
                 language=target_lang
             )
-        except Exception as e:
+        except Exception:
             pass
 
         return result

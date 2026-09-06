@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "last_updated": "2026-09-06 22:29:09",
-  "total_queries_processed": 30,
+  "last_updated": "2026-09-06 22:42:06",
+  "total_queries_processed": 60,
   "learned_entries": [
     {
       "topic": "grapes_probable_problems",
@@ -82,12 +82,14 @@
         "Why are my leaves turning yellow?",
         "पत्तियां पीली क्यों हो रही हैं?",
         "پتے پیلے کیوں پڑ رہے ہیں؟",
-        "ٹماٹر کے پتے مڑ رہے ہیں کیا کریں؟"
+        "ٹماٹر کے پتے مڑ رہے ہیں کیا کریں؟",
+        "टमाटर में पत्तियां पीली हो रही हैं क्या करें?",
+        "ٹماٹر کے پتے پیلے ہو رہے ہیں کیا کریں؟"
       ],
       "answer_en": "🔬 **Probable Problems & Disease Diagnosis for Tomato:**\n\n**Probable Diseases & Problem Indicators:**\n• **Early Blight (Alternaria solani):** Concentric rings ('target board' pattern) on older lower leaves.\n  *Causes & Risk Trigger:* Foliar wetness from dew or rain followed by warm sunshine.\n  *Recommended Action:* Stake plants, mulch to prevent soil splashing, remove lower diseased leaves.\n• **Late Blight (Phytophthora infestans):** Water-soaked irregular lesions with white mold on leaf undersides.\n  *Causes & Risk Trigger:* Continuous leaf wetness and cool humid microclimates.\n  *Recommended Action:* Apply preventive copper/mancozeb sprays before continuous rain spells; avoid overhead watering.\n• **Bacterial Spot (Xanthomonas):** Small, dark, water-soaked circular spots with yellow halos.\n  *Causes & Risk Trigger:* Bacterial pathogen spread by wind-driven rain and infected seeds.\n  *Recommended Action:* Use certified seed, apply copper-bactericide sprays, avoid sprinkler irrigation.\n\n**Key Protective Measures:**\n• Use drip irrigation to keep foliage dry and minimize fungal spore germination.\n• Stake and prune indeterminate varieties to optimize airflow and sunlight penetration.",
       "answer_hi": "",
       "answer_ur": "",
-      "sample_count": 4,
+      "sample_count": 6,
       "learned_at": "2026-09-06 22:29:09"
     },
     {
@@ -146,6 +148,61 @@
       "answer_ur": "",
       "sample_count": 1,
       "learned_at": "2026-09-06 22:29:09"
+    },
+    {
+      "topic": "wheat_fertilizer_guidance",
+      "crop": "Wheat",
+      "language": "hi",
+      "query_templates": [
+        "गेहूं में खाद कब और कितनी डालनी चाहिए?",
+        "گندم میں کھاد کا صحیح وقت کیا ہے؟"
+      ],
+      "answer_en": "",
+      "answer_hi": "🌾 **गेहूं की फसल के लिए खाद प्रबंधन:**\n• **बुवाई के समय:** पूरी डीएपी (1 बोरी/एकड़) + पोटाश (20-25 किग्रा) + 1/3 यूरिया डालें।\n• **पहली सिंचाई (21 दिन / सीआरआई अवस्था):** 1/3 यूरिया के साथ जिंक सल्फेट डालें।\n• **दूसरी सिंचाई (40-45 दिन / कल्ले निकलते समय):** शेष 1/3 यूरिया का छिड़काव करें।",
+      "answer_ur": "",
+      "sample_count": 2,
+      "learned_at": "2026-09-06 22:41:25"
+    },
+    {
+      "topic": "potato_probable_problems",
+      "crop": "Potato",
+      "language": "hi",
+      "query_templates": [
+        "आलू में झुलसा रोग से कैसे बचें?"
+      ],
+      "answer_en": "",
+      "answer_hi": "🔬 **आलू (Potato) की संभावित समस्याएं, रोग लक्षण एवं रोकथाम:**\n\n**संभावित रोग, समस्याएं एवं लक्षण:**\n• **पछेती झुलसा (Late Blight):** पत्तियों के सिरों पर काले-भूरे पानीदार धब्बे जो तेजी से फैलते हैं।\n  *बचाव:* कोहरा और अधिक नमी होते ही मैंकोजेब या रेडोमिल का तुरंत छिड़काव करें।\n• **काली रूसी (Black Scurf):** आलू के कंद पर काले रंग की पपड़ी जैसी परत जमना।\n  *बचाव:* बीज आलू को ट्राइकोडर्मा या कार्बेंडाजिम से उपचारित करके ही बोएं।\n\n**सुरक्षात्मक सावधानियां:**\n• आलू की मेड़ों पर मिट्टी चढ़ाएं ताकि कंद धूप और फफूंद के सीधे संपर्क में न आएं।\n• मौसम में कोहरा और 80% से अधिक नमी होने पर लेट ब्लाइट (पछेती झुलसा) का छिड़काव करें।",
+      "answer_ur": "",
+      "sample_count": 1,
+      "learned_at": "2026-09-06 22:41:25"
+    },
+    {
+      "topic": "greeting_conversation",
+      "crop": "General",
+      "language": "hi",
+      "query_templates": [
+        "नमस्ते, आप कैसे मदद कर सकते हैं?",
+        "السلام علیکم، آپ میری کیا مدد کر سکتے ہیں؟"
+      ],
+      "answer_en": "",
+      "answer_hi": "नमस्ते! मैं **CropGuard AI सहायक** हूँ, आपका स्थानीय कृषि एवं मौसम सलाहकार।\n\nमैं फसलों के स्वास्थ्य, रोग निवारण, मौसम के खतरे, खाद और कीटनाशक छिड़काव के नियमों में आपकी पूरी सहायता कर सकता हूँ।\n\nआप मुझसे किसी भी फसल के बारे में पूछ सकते हैं या नीचे दिए गए सुझावों में से चुन सकते हैं।",
+      "answer_ur": "",
+      "sample_count": 2,
+      "learned_at": "2026-09-06 22:41:25"
+    },
+    {
+      "topic": "domain_advisory_synthesis",
+      "crop": "General",
+      "language": "ur",
+      "query_templates": [
+        "پیداوار بڑھانے کے طریقے",
+        "kheti me keeda lag gaya hai kya kare"
+      ],
+      "answer_en": "",
+      "answer_hi": "",
+      "answer_ur": "🌾 **فصل کی شاندار پیداوار حاصل کرنے کے 5 سنہری اصول:**\n\n1) **تصدیق شدہ بیج اور بیج کا علاج:** بوائی سے قبل بیج کو فنگس کش دوا یا ٹرائیکوڈرما سے ٹریٹ کریں۔\n2) **متوازن کھاد کا استعمال:** مٹی کے ٹیسٹ کی بنیاد پر ڈی اے پی، یوریا اور پوٹاش کی متوازن مقدار دیں۔\n3) **نازک مراحل پر بروقت آبپاشی:** پھول آنے اور دانہ بننے کے وقت وتر کی کمی نہ ہونے دیں۔\n4) **جڑی بوٹیوں کی تلفی:** فصل کے ابتدائی 30 دنوں میں جڑی بوٹیاں تلف کریں تاکہ کھاد اور پانی ضائع نہ ہو۔\n5) **بروقت کیڑوں کی روک تھام:** رس چوسنے والے کیڑوں کے لیے شروع میں نیم کا تیل اسپرے کریں۔",
+      "sample_count": 2,
+      "learned_at": "2026-09-06 22:41:25"
     }
   ],
   "query_feedback": [
