@@ -53,17 +53,67 @@ class CropGuardPredictor:
 
         self._load_knowledge_base()
 
-        # Load ML artifacts
-        self.reg_artifact = self._load_joblib("linear_regression.joblib")
-        self.dt_artifact = self._load_joblib("decision_tree_model.joblib")
-        self.knn_artifact = self._load_joblib("knn_model.joblib")
-        self.kmeans_artifact = self._load_joblib("kmeans_model.joblib")
-        self.recommender_artifact = self._load_joblib("crop_recommender.joblib")
+        # Lazy ML artifacts (loaded on-demand to conserve RAM)
+        self._reg_artifact = None
+        self._dt_artifact = None
+        self._knn_artifact = None
+        self._kmeans_artifact = None
+        self._recommender_artifact = None
+
+    @property
+    def reg_artifact(self):
+        if self._reg_artifact is None:
+            self._reg_artifact = self._load_joblib("linear_regression.joblib")
+        return self._reg_artifact
+
+    @reg_artifact.setter
+    def reg_artifact(self, val):
+        self._reg_artifact = val
+
+    @property
+    def dt_artifact(self):
+        if self._dt_artifact is None:
+            self._dt_artifact = self._load_joblib("decision_tree_model.joblib")
+        return self._dt_artifact
+
+    @dt_artifact.setter
+    def dt_artifact(self, val):
+        self._dt_artifact = val
+
+    @property
+    def knn_artifact(self):
+        if self._knn_artifact is None:
+            self._knn_artifact = self._load_joblib("knn_model.joblib")
+        return self._knn_artifact
+
+    @knn_artifact.setter
+    def knn_artifact(self, val):
+        self._knn_artifact = val
+
+    @property
+    def kmeans_artifact(self):
+        if self._kmeans_artifact is None:
+            self._kmeans_artifact = self._load_joblib("kmeans_model.joblib")
+        return self._kmeans_artifact
+
+    @kmeans_artifact.setter
+    def kmeans_artifact(self, val):
+        self._kmeans_artifact = val
+
+    @property
+    def recommender_artifact(self):
+        if self._recommender_artifact is None:
+            self._recommender_artifact = self._load_joblib("crop_recommender.joblib")
+        return self._recommender_artifact
+
+    @recommender_artifact.setter
+    def recommender_artifact(self, val):
+        self._recommender_artifact = val
 
     def _load_knowledge_base(self):
         if os.path.exists(self.knowledge_base_path):
             try:
-                with open(self.knowledge_base_path, "r") as f:
+                with open(self.knowledge_base_path, "r", encoding="utf-8") as f:
                     self.knowledge_base = json.load(f)
             except Exception as e:
                 print(f"[Predictor] Error loading knowledge base: {e}")
@@ -72,7 +122,9 @@ class CropGuardPredictor:
         path = os.path.join(self.models_dir, filename)
         if os.path.exists(path):
             try:
-                return joblib.load(path)
+                model = joblib.load(path)
+                import gc; gc.collect()
+                return model
             except Exception as e:
                 print(f"[Predictor] Error loading {filename}: {e}")
         return None
@@ -80,11 +132,11 @@ class CropGuardPredictor:
     def reload_artifacts(self):
         """Reloads all saved model weights and knowledge base after self-improvement cycle."""
         self._load_knowledge_base()
-        self.reg_artifact = self._load_joblib("linear_regression.joblib")
-        self.dt_artifact = self._load_joblib("decision_tree_model.joblib")
-        self.knn_artifact = self._load_joblib("knn_model.joblib")
-        self.kmeans_artifact = self._load_joblib("kmeans_model.joblib")
-        self.recommender_artifact = self._load_joblib("crop_recommender.joblib")
+        self._reg_artifact = self._load_joblib("linear_regression.joblib")
+        self._dt_artifact = self._load_joblib("decision_tree_model.joblib")
+        self._knn_artifact = self._load_joblib("knn_model.joblib")
+        self._kmeans_artifact = self._load_joblib("kmeans_model.joblib")
+        self._recommender_artifact = self._load_joblib("crop_recommender.joblib")
         print("[Predictor] Successfully reloaded all updated model artifacts.")
 
     def recommend_crops(

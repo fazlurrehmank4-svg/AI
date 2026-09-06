@@ -88,12 +88,13 @@ class CropDiseaseVisionClassifier:
         ])
 
         self._load_metadata()
-        self._load_model()
+        # Model is loaded lazily on first diagnosis to keep RAM minimal at boot
+        torch.set_num_threads(1)
 
     def _load_metadata(self):
         if os.path.exists(self.classes_path):
             try:
-                with open(self.classes_path, "r") as f:
+                with open(self.classes_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     classes = data.get("classes", [])
                     for item in classes:
@@ -103,18 +104,21 @@ class CropDiseaseVisionClassifier:
             except Exception as e:
                 print(f"[VisionClassifier] Error reading classes json: {e}")
 
-    def _load_model(self):
-        if os.path.exists(self.model_path):
+    def _ensure_model(self):
+        """Loads PyTorch model on-demand when an image diagnostic request is made."""
+        if self.model is None and os.path.exists(self.model_path):
             try:
                 checkpoint = torch.load(self.model_path, map_location=self.device)
                 num_classes = checkpoint.get("num_classes", len(self.idx_to_class) or 27)
                 self.model = CropDiseaseCNN(num_classes=num_classes).to(self.device)
                 self.model.load_state_dict(checkpoint["model_state_dict"])
                 self.model.eval()
-                print(f"[VisionClassifier] Loaded PyTorch vision model ({num_classes} classes)")
+                import gc; gc.collect()
+                print(f"[VisionClassifier] Lazily loaded PyTorch vision model ({num_classes} classes)")
             except Exception as e:
                 print(f"[VisionClassifier] Error loading PyTorch model: {e}")
                 self.model = None
+        return self.model
 
     def diagnose_image(
         self,
@@ -126,6 +130,7 @@ class CropDiseaseVisionClassifier:
         """
         Diagnoses crop leaf image from raw bytes, base64 string, or filepath.
         """
+        self._ensure_model()
         # 1. Parse Image
         pil_img = None
         try:

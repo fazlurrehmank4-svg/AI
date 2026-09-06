@@ -3,7 +3,7 @@ services:
     name: cropguard-ai-backend
     runtime: python
     buildCommand: pip install -r Backend/requirements.txt
-    startCommand: uvicorn Backend.app:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn Backend.app:app --host 0.0.0.0 --port $PORT --workers 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.8

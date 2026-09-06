@@ -631,22 +631,14 @@ class LocalFarmerChatbot:
         self.self_learning_engine = SelfLearningEngine()
         self.learning_engine = self.self_learning_engine
 
-        # 3. Load Trained Syntactic Language Model (Cross-lingual Hindi/Hinglish/English)
-        self.syntactic_model = {}
-        syntax_candidates = [
+        # 3. Syntactic Model (loaded lazily if needed to keep RAM under 512MB)
+        self._syntactic_model = None
+        self._syntax_candidates = [
             os.path.join(ai_dir, "syntactic_language_model.json"),
             os.path.join(ai_dir, "saved_models", "syntactic_language_model.json"),
             os.path.join(root_dir, "Practical_09_NLP_App", "syntactic_language_model.json"),
             "Practical_09_NLP_App/syntactic_language_model.json"
         ]
-        for sc in syntax_candidates:
-            if sc and os.path.exists(sc):
-                try:
-                    with open(sc, "r", encoding="utf-8") as f:
-                        self.syntactic_model = json.load(f)
-                    break
-                except Exception:
-                    pass
 
         # 4. Load Trained Urdu Instruction & Agricultural AI Model
         self.urdu_instruct_model = []
@@ -761,13 +753,30 @@ class LocalFarmerChatbot:
             self.corpus_entries.append(entry)
             self.corpus_documents.append(clean_text)
 
-        # Build Unicode-aware TF-IDF Vectorizer
+        # Build Unicode-aware TF-IDF Vectorizer with strict float32 and max_features to fit 512MB RAM
         self.vectorizer = TfidfVectorizer(
             ngram_range=(1, 2),
             token_pattern=r'[\u0900-\u097F\u0600-\u06FF\w]+',
+            max_features=3000,
+            dtype=np.float32,
             min_df=1
         )
         self.tfidf_matrix = self.vectorizer.fit_transform(self.corpus_documents)
+        import gc; gc.collect()
+
+    @property
+    def syntactic_model(self):
+        if self._syntactic_model is None:
+            self._syntactic_model = {}
+            for sc in self._syntax_candidates:
+                if sc and os.path.exists(sc):
+                    try:
+                        with open(sc, "r", encoding="utf-8") as f:
+                            self._syntactic_model = json.load(f)
+                        break
+                    except Exception:
+                        pass
+        return self._syntactic_model
 
     def detect_language(self, text: str) -> str:
         """
