@@ -586,6 +586,16 @@ class LocalFarmerChatbot:
         self.self_learning_engine = SelfLearningEngine()
         self.learning_engine = self.self_learning_engine
 
+        # Load Trained Syntactic Language Model (from Data/Train/Syntatic-Analysis-Dataset)
+        self.syntactic_model = {}
+        syntax_model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "syntactic_language_model.json")
+        if os.path.exists(syntax_model_path):
+            try:
+                with open(syntax_model_path, "r", encoding="utf-8") as f:
+                    self.syntactic_model = json.load(f)
+            except Exception:
+                pass
+
         # Build TF-IDF index over both base corpus and learned dynamic entries
         self.rebuild_index()
 
