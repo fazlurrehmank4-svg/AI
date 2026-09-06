@@ -603,45 +603,70 @@ class LocalFarmerChatbot:
     Supports English, Hindi, and Urdu with zero external LLM API dependencies.
     Features autonomous continuous self-learning, intent classification, and real-time knowledge adaptation.
     """
-    def __init__(self, knowledge_base_path="Data/knowledge_base/crop_knowledge.json"):
+    def __init__(self, knowledge_base_path: Optional[str] = None):
         self.reasoning_engine = AgriculturalReasoningEngine()
         self.knowledge_base = {}
 
-        if not os.path.exists(knowledge_base_path):
-            alt_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Data", "knowledge_base", "crop_knowledge.json")
-            if os.path.exists(alt_path):
-                knowledge_base_path = alt_path
+        ai_dir = os.path.dirname(os.path.abspath(__file__))
+        base_dir = os.path.dirname(ai_dir)
+        root_dir = os.path.dirname(base_dir)
 
-        if os.path.exists(knowledge_base_path):
-            with open(knowledge_base_path, "r", encoding="utf-8") as f:
-                self.knowledge_base = json.load(f)
+        # 1. Load Crop Knowledge Base
+        kb_candidates = [
+            knowledge_base_path,
+            os.path.join(base_dir, "data", "knowledge_base", "crop_knowledge.json"),
+            os.path.join(root_dir, "Data", "knowledge_base", "crop_knowledge.json"),
+            os.path.join("Data", "knowledge_base", "crop_knowledge.json")
+        ]
+        for candidate in kb_candidates:
+            if candidate and os.path.exists(candidate):
+                try:
+                    with open(candidate, "r", encoding="utf-8") as f:
+                        self.knowledge_base = json.load(f)
+                    break
+                except Exception:
+                    pass
 
-        # Initialize Self-Learning Knowledge & Feedback Engine
+        # 2. Initialize Self-Learning Knowledge & Feedback Engine
         self.self_learning_engine = SelfLearningEngine()
         self.learning_engine = self.self_learning_engine
 
-        # Load Trained Syntactic Language Model (from Data/Train/Syntatic-Analysis-Dataset)
+        # 3. Load Trained Syntactic Language Model (Cross-lingual Hindi/Hinglish/English)
         self.syntactic_model = {}
-        syntax_model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "syntactic_language_model.json")
-        if os.path.exists(syntax_model_path):
-            try:
-                with open(syntax_model_path, "r", encoding="utf-8") as f:
-                    self.syntactic_model = json.load(f)
-            except Exception:
-                pass
+        syntax_candidates = [
+            os.path.join(ai_dir, "syntactic_language_model.json"),
+            os.path.join(ai_dir, "saved_models", "syntactic_language_model.json"),
+            os.path.join(root_dir, "Practical_09_NLP_App", "syntactic_language_model.json"),
+            "Practical_09_NLP_App/syntactic_language_model.json"
+        ]
+        for sc in syntax_candidates:
+            if sc and os.path.exists(sc):
+                try:
+                    with open(sc, "r", encoding="utf-8") as f:
+                        self.syntactic_model = json.load(f)
+                    break
+                except Exception:
+                    pass
 
-        # Load Trained Urdu Instruction Model
+        # 4. Load Trained Urdu Instruction & Agricultural AI Model
         self.urdu_instruct_model = []
-        urdu_model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "urdu_ai_model.json")
-        if os.path.exists(urdu_model_path):
-            try:
-                with open(urdu_model_path, "r", encoding="utf-8") as f:
-                    u_data = json.load(f)
-                    self.urdu_instruct_model = u_data.get("instruction_dataset", [])
-            except Exception:
-                pass
+        urdu_candidates = [
+            os.path.join(ai_dir, "urdu_ai_model.json"),
+            os.path.join(ai_dir, "saved_models", "urdu_ai_model.json"),
+            os.path.join(root_dir, "Practical_09_NLP_App", "urdu_ai_model.json"),
+            "Practical_09_NLP_App/urdu_ai_model.json"
+        ]
+        for uc in urdu_candidates:
+            if uc and os.path.exists(uc):
+                try:
+                    with open(uc, "r", encoding="utf-8") as f:
+                        u_data = json.load(f)
+                        self.urdu_instruct_model = u_data.get("doc_registry", []) or u_data.get("instruction_dataset", [])
+                    break
+                except Exception:
+                    pass
 
-        # Build TF-IDF index over base corpus, knowledge_base crops, urdu instruct, and learned entries
+        # Build TF-IDF index over base corpus, knowledge_base crops, Urdu instruct, and learned entries
         self.rebuild_index()
 
     def rebuild_index(self) -> None:
@@ -705,20 +730,23 @@ class LocalFarmerChatbot:
 
         # 3. Ingest Urdu Instruction Dataset
         for item in self.urdu_instruct_model:
-            inst = item.get("instruction", "")
+            inst = item.get("instruction", "") or item.get("input", "")
             inp = item.get("input", "")
-            out = item.get("output", "")
-            u_entry = {
-                "topic": "urdu_instruct_qa",
-                "crop": "General",
-                "query_templates": [inst, inp],
-                "answer_en": out,
-                "answer_hi": out,
-                "answer_ur": out
-            }
-            clean_text = self.preprocess_text(inst + " " + inp + " " + out)
-            self.corpus_entries.append(u_entry)
-            self.corpus_documents.append(clean_text)
+            out = item.get("response", "") or item.get("output", "")
+            intent = item.get("intent", "urdu_instruct_qa")
+            if out:
+                templates = [t for t in [inst, inp] if t]
+                u_entry = {
+                    "topic": intent,
+                    "crop": item.get("crop", "General"),
+                    "query_templates": templates if templates else [out[:30]],
+                    "answer_en": out,
+                    "answer_hi": out,
+                    "answer_ur": out
+                }
+                clean_text = self.preprocess_text(" ".join(u_entry["query_templates"]) + " " + out)
+                self.corpus_entries.append(u_entry)
+                self.corpus_documents.append(clean_text)
 
         # 4. Ingest Dynamically Learned Entries from Self-Learning Engine
         learned_entries = self.self_learning_engine.get_learned_corpus()
