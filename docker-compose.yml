@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  cropguard-ai:
+    build: .
+    container_name: cropguard_ai_service
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - SUPABASE_URL=https://tspdpkyhszrebrclsefz.supabase.co
+      - WEATHER_PROVIDER=open_meteo
+      - ALLOWED_ORIGINS=*
+    restart: unless-stopped

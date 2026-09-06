@@ -3,28 +3,54 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
 [![Flutter](https://img.shields.io/badge/Flutter-3.47+-02569B.svg?style=flat&logo=flutter)](https://flutter.dev)
 [![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.14-3776AB.svg?style=flat&logo=python)](https://python.org)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?style=flat&logo=docker)](docker-compose.yml)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL%20RLS-3ECF8E.svg?style=flat&logo=supabase)](https://supabase.com)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-ML%20Pipeline-F7931E.svg?style=flat&logo=scikit-learn)](https://scikit-learn.org)
 [![Tests](https://img.shields.io/badge/Tests-100%25%20Passing-brightgreen.svg?style=flat)](#testing--verification)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/fazlurrehmank4-svg/AI)
 
-> **A production-grade, college AI capstone project integrating 10 Artificial Intelligence Laboratory Practicals into an explainable agricultural decision support system with a Python FastAPI backend, Supabase PostgreSQL with Row Level Security, a 100% local NLP chatbot (zero external LLM APIs), and a modern Flutter mobile application.**
+> **A production-grade, college AI capstone project integrating 10 Artificial Intelligence Laboratory Practicals into an explainable agricultural decision support system with a Python FastAPI backend, Supabase PostgreSQL with Row Level Security, a 100% local multilingual NLP chatbot (English, Hindi हिंदी, Urdu اردو with zero external LLM APIs), and a modern Flutter mobile application.**
+
+---
+
+## 🚀 1-Click Hosting & Quick Start
+
+### Option A: 1-Click Cloud Hosting (Render)
+Click the button below to deploy the complete CropGuard AI backend for free on Render:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/fazlurrehmank4-svg/AI)
+
+### Option B: 1-Command Docker Hosting
+Run the complete AI engine inside an isolated container:
+```bash
+# Clone the repository
+git clone https://github.com/fazlurrehmank4-svg/AI.git
+cd AI
+
+# Launch with Docker Compose
+docker-compose up -d
+```
+Access the interactive API at `http://localhost:8000/docs` or `http://localhost:8000/redoc`.
+
+### Option C: 1-Click Local Run
+- **Windows:** Double-click [`start.bat`](start.bat) or run `.\start.bat` in Terminal.
+- **Linux / macOS:** Run `chmod +x start.sh && ./start.sh`
 
 ---
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
-2. [Core Architecture](#core-architecture)
-3. [The 10 AI Lab Practicals](#the-10-ai-lab-practicals)
-4. [Custom Local Farmer Chatbot (Zero External LLMs)](#custom-local-farmer-chatbot-zero-external-llms)
-5. [Machine Learning Pipeline & Evaluation](#machine-learning-pipeline--evaluation)
-6. [Supabase Database & Row Level Security (RLS)](#supabase-database--row-level-security-rls)
-7. [Security Architecture](#security-architecture)
-8. [Flutter Mobile Application & UI Screens](#flutter-mobile-application--ui-screens)
-9. [FastAPI Backend Endpoints](#fastapi-backend-endpoints)
-10. [Quick Start & Setup Instructions](#quick-start--setup-instructions)
+2. [1-Click Hosting & Quick Start](#-1-click-hosting--quick-start)
+3. [Core Architecture](#core-architecture)
+4. [The 10 AI Lab Practicals](#the-10-ai-lab-practicals)
+5. [Custom Local Farmer Chatbot (Zero External LLMs)](#custom-local-farmer-chatbot-zero-external-llms)
+6. [Machine Learning Pipeline & Evaluation](#machine-learning-pipeline--evaluation)
+7. [Supabase Database & Row Level Security (RLS)](#supabase-database--row-level-security-rls)
+8. [Security Architecture](#security-architecture)
+9. [Flutter Mobile Application & UI Screens](#flutter-mobile-application--ui-screens)
+10. [FastAPI Backend Endpoints](#fastapi-backend-endpoints)
 11. [Testing & Verification](#testing--verification)
 12. [Android Release APK Build](#android-release-apk-build)
-13. [Deployment (Render & Docker)](#deployment-render--docker)
+13. [Deployment (Render, Docker, Cloud)](#deployment-render--docker)
 14. [Academic Viva Defense & Documentation](#academic-viva-defense--documentation)
 15. [Scientific Disclaimer & Limitations](#scientific-disclaimer--limitations)
 

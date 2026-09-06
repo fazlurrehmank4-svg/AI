@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "last_updated": "2026-09-06 22:42:06",
-  "total_queries_processed": 60,
+  "last_updated": "2026-09-06 22:50:44",
+  "total_queries_processed": 65,
   "learned_entries": [
     {
       "topic": "grapes_probable_problems",
@@ -66,12 +66,15 @@
       "query_templates": [
         "Why is my crop at risk?",
         "फसल को रोग का खतरा क्यों है?",
-        "فصل کو بیماری یا خطرہ کیوں ہوتا ہے؟"
+        "فصل کو بیماری یا خطرہ کیوں ہوتا ہے؟",
+        "When to spray pesticide or fungicide?",
+        "پتے پیلے کیوں پڑ رہے ہیں؟",
+        "پھپھوندی (Fungal disease) کی کیا وجوہات ہیں؟"
       ],
       "answer_en": "🔬 **Probable Problems & Disease Diagnosis for Wheat:**\n\n**Probable Diseases & Problem Indicators:**\n• **Yellow / Stripe Rust:** Yellow pustules arranged in linear stripes on leaf blades.\n  *Causes & Risk Trigger:* Prolonged cool moist weather and wind-borne spores.\n  *Recommended Action:* Plant resistant cultivars, monitor early morning dew periods, apply triazole fungicides if risk escalates.\n• **Terminal Heat Stress:** Premature leaf senescence, shriveled grains, and forced maturity.\n  *Causes & Risk Trigger:* Late sowing and sudden temperature spikes.\n  *Recommended Action:* Ensure light irrigation to reduce canopy temperature; apply potassium nitrate spray.\n\n**Key Protective Measures:**\n• Do not over-irrigate during flowering to prevent root lodging and rust susceptibility.\n• Ensure balanced fertilization with adequate phosphorus and potassium.",
       "answer_hi": "",
       "answer_ur": "",
-      "sample_count": 3,
+      "sample_count": 6,
       "learned_at": "2026-09-06 22:29:09"
     },
     {
