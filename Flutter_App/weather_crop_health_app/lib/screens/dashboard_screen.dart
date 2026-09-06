@@ -11,6 +11,7 @@ import '../widgets/health_score_gauge.dart';
 import '../widgets/risk_badge.dart';
 import '../widgets/forecast_alert_card.dart';
 import '../models/forecast_alert_model.dart';
+import '../widgets/logo_widget.dart';
 import 'crop_selection_screen.dart';
 import 'weather_screen.dart';
 import 'prediction_screen.dart';
@@ -329,7 +330,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       backgroundColor: CropGuardTheme.background,
       appBar: AppBar(
-        title: const Text("CropGuard AI"),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            CropGuardLogo(size: 26, showText: false),
+            SizedBox(width: 8),
+            Text("CropGuard AI"),
+          ],
+        ),
         leading: Builder(
           builder: (ctx) => IconButton(
             icon: const Icon(Icons.menu_rounded),
@@ -376,60 +384,68 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // 1. Greeting & Farm Location
+                    // 1. Greeting & Farm Location (Mobile Responsive & Overflow-Safe)
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Welcome, $userName 👋",
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                                color: CropGuardTheme.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 3),
-                            InkWell(
-                              onTap: _showLocationPickerBottomSheet,
-                              borderRadius: BorderRadius.circular(16),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(color: CropGuardTheme.primary.withValues(alpha: 0.25)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.04),
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Welcome, $userName 👋",
+                                style: const TextStyle(
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w800,
+                                  color: CropGuardTheme.textPrimary,
                                 ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(Icons.location_on_rounded, size: 14, color: CropGuardTheme.primary),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      _farmLocation,
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700,
-                                        color: CropGuardTheme.primaryDark,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 3),
+                              InkWell(
+                                onTap: _showLocationPickerBottomSheet,
+                                borderRadius: BorderRadius.circular(16),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(color: CropGuardTheme.primary.withValues(alpha: 0.25)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(alpha: 0.04),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
                                       ),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    const Icon(Icons.edit_location_alt_outlined, size: 14, color: CropGuardTheme.textSecondary),
-                                  ],
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.location_on_rounded, size: 14, color: CropGuardTheme.primary),
+                                      const SizedBox(width: 4),
+                                      Flexible(
+                                        child: Text(
+                                          _farmLocation,
+                                          style: const TextStyle(
+                                            fontSize: 12.5,
+                                            fontWeight: FontWeight.w700,
+                                            color: CropGuardTheme.primaryDark,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      const Icon(Icons.edit_location_alt_outlined, size: 14, color: CropGuardTheme.textSecondary),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                        const SizedBox(width: 10),
                         // Crop Selector Chip
                         GestureDetector(
                           onTap: () async {
@@ -449,6 +465,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               border: Border.all(color: CropGuardTheme.primaryLight, width: 1.2),
                             ),
                             child: Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(_selectedCrop.emoji, style: const TextStyle(fontSize: 16)),
                                 const SizedBox(width: 6),
@@ -568,16 +585,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Crop Health Diagnosis",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  color: CropGuardTheme.textPrimary,
+              const Expanded(
+                child: Text(
+                  "Crop Health Diagnosis",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: CropGuardTheme.textPrimary,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              const SizedBox(width: 8),
               RiskBadge(status: pred.healthStatus, riskLevel: pred.riskLevel),
             ],
           ),
@@ -686,15 +706,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Column(
         children: [
           UserAccountsDrawerHeader(
-            decoration: const BoxDecoration(color: CropGuardTheme.primary),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF1B5E20), Color(0xFF2E7D32)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
             accountName: Text(user?.fullName ?? "Farmer", style: const TextStyle(fontWeight: FontWeight.bold)),
             accountEmail: Text(user?.email ?? "farmer@cropguard.ai"),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Text(
-                (user?.fullName.isNotEmpty == true ? user!.fullName[0] : "F").toUpperCase(),
-                style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: CropGuardTheme.primary),
+            currentAccountPicture: Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
               ),
+              padding: const EdgeInsets.all(4),
+              child: const CropGuardLogo(size: 48, showText: false),
             ),
           ),
           ListTile(

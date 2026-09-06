@@ -31,7 +31,8 @@ Flutter_App/weather_crop_health_app/ios/Flutter/flutter_export_environment.sh
 # IDEs
 .idea/
 .vscode/
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
+# Large Datasets
+Data/Train/
+Data/train/
+Data/raw/images/
+

@@ -32,25 +32,30 @@ class PredictionScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            prediction.crop,
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800,
-                              color: CropGuardTheme.textPrimary,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              prediction.crop,
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800,
+                                color: CropGuardTheme.textPrimary,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          Text(
-                            prediction.location,
-                            style: const TextStyle(fontSize: 13, color: CropGuardTheme.textSecondary),
-                          ),
-                        ],
+                            Text(
+                              prediction.location,
+                              style: const TextStyle(fontSize: 13, color: CropGuardTheme.textSecondary),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
                       ),
+                      const SizedBox(width: 8),
                       RiskBadge(status: prediction.healthStatus, riskLevel: prediction.riskLevel),
                     ],
                   ),

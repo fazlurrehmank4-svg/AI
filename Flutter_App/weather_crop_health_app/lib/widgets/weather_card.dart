@@ -30,40 +30,41 @@ class WeatherCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: CropGuardTheme.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(10),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: CropGuardTheme.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.location_on_rounded, color: CropGuardTheme.primary, size: 20),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      weather.locationName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: CropGuardTheme.textPrimary,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                    child: const Icon(Icons.location_on_rounded, color: CropGuardTheme.primary, size: 20),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        weather.locationName,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: CropGuardTheme.textPrimary,
-                        ),
+                    Text(
+                      weather.source ?? "Live Agricultural Telemetry",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: CropGuardTheme.textSecondary,
                       ),
-                      Text(
-                        weather.source ?? "Live Agricultural Telemetry",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: CropGuardTheme.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
               ),
               if (onRefresh != null)
                 IconButton(

@@ -5,46 +5,86 @@ class CropGuardLogo extends StatelessWidget {
   final double size;
   final bool showText;
   final bool isDark;
+  final String? imagePath;
 
   const CropGuardLogo({
     Key? key,
     this.size = 64,
     this.showText = true,
     this.isDark = false,
+    this.imagePath,
   }) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
+    Widget logoIcon;
+    if (imagePath != null && imagePath!.isNotEmpty) {
+      logoIcon = ClipRRect(
+        borderRadius: BorderRadius.circular(size * 0.28),
+        child: Image.asset(
+          imagePath!,
+          width: size,
+          height: size,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) => _buildVectorLogo(),
+        ),
+      );
+    } else {
+      logoIcon = _buildVectorLogo();
+    }
+
+    if (!showText) {
+      return logoIcon;
+    }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CustomPaint(
-          size: Size(size, size),
-          painter: _LogoPainter(),
-        ),
-        if (showText) ...[
-          const SizedBox(height: 10),
-          Text(
-            "CropGuard AI",
-            style: TextStyle(
-              fontSize: size * 0.32,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.5,
-              color: isDark ? Colors.white : CropGuardTheme.primaryDark,
-            ),
+        logoIcon,
+        const SizedBox(height: 10),
+        Text(
+          "CropGuard AI",
+          style: TextStyle(
+            fontSize: size * 0.30,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.5,
+            color: isDark ? Colors.white : CropGuardTheme.primaryDark,
           ),
-          const SizedBox(height: 3),
-          Text(
-            "Weather-Based Crop Health Predictor",
-            style: TextStyle(
-              fontSize: size * 0.16,
-              fontWeight: FontWeight.w500,
-              color: isDark ? Colors.white70 : CropGuardTheme.textSecondary,
-              letterSpacing: 0.2,
-            ),
+        ),
+        const SizedBox(height: 3),
+        Text(
+          "Weather-Based Crop Health Predictor",
+          style: TextStyle(
+            fontSize: size * 0.15,
+            fontWeight: FontWeight.w500,
+            color: isDark ? Colors.white70 : CropGuardTheme.textSecondary,
+            letterSpacing: 0.2,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildVectorLogo() {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(size * 0.28),
+        boxShadow: [
+          BoxShadow(
+            color: CropGuardTheme.primary.withOpacity(0.28),
+            blurRadius: size * 0.18,
+            offset: Offset(0, size * 0.06),
           ),
         ],
-      ],
+      ),
+      child: CustomPaint(
+        size: Size(size, size),
+        painter: _LogoPainter(),
+      ),
     );
   }
 }
@@ -59,7 +99,7 @@ class _LogoPainter extends CustomPainter {
     final rect = Rect.fromLTWH(0, 0, w, h);
     final bgPaint = Paint()
       ..shader = const LinearGradient(
-        colors: [Color(0xFF1B5E20), Color(0xFF2E7D32), Color(0xFF4CAF50)],
+        colors: [Color(0xFF1B5E20), Color(0xFF2E7D32), Color(0xFF43A047)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(rect);

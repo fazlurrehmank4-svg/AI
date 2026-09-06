@@ -1,48 +1,63 @@
-# Practical 09: Domain-Specific Agricultural NLP Chatbot (Zero LLMs)
+# Practical 09: Multilingual Domain-Specific Agricultural & Weather NLP Chatbot (CropGuard AI)
+
+## Overview
+CropGuard AI Assistant is a high-performance, local agricultural and meteorological conversational agent providing zero-latency advice across **English**, **Hindi (हिंदी)**, and **Urdu (اردو)** without relying on external or paid LLM APIs.
 
 ---
 
-## 1. What Is It?
-Practical 09 implements a 100% local, domain-specific **Natural Language Processing (NLP) Conversational Assistant** for agricultural decision support that runs entirely without external Large Language Models or paid third-party APIs (no OpenAI, Gemini, Claude, DeepSeek, or Groq).
+## Urdu AI Architecture & Training Pipeline
+Adapted from the curated datasets, tokenization standards, and instruction formats in the **Traversaal AI Urdu LLM Registry** ([traversaal-ai/urdu-llm-resources](https://github.com/traversaal-ai/urdu-llm-resources)).
 
-## 2. Why Is It Used?
-Rural agricultural extension tools require deterministic reliability, offline operability, zero external API token costs, data privacy, and zero tolerance for statistical hallucination. Grounding chatbot answers in calibrated Kaggle knowledge and formal reasoning engines delivers explainable and trustworthy farmer advisory.
+### 1. Linguistic Preprocessing & Normalization
+Urdu text requires specialized morphological normalization:
+- **Aerab / Diacritics Stripping**: Removes Zabar, Zer, Pesh, Jazm, Tashdeed (`\u064B-\u065F\u0670\u06D6-\u06ED`).
+- **Unicode Character Standardizer**:
+  - Arabic Yeh (`ي`, `ى`), Yeh with Hamza (`ئ`) → Urdu Yeh (`ی`)
+  - Arabic Kaf (`ك`) → Urdu Keheh (`ک`)
+  - Ta Marbuta (`ة`), Arabic Heh (`ه`), Heh with Yeh (`ۂ`) → Urdu Choti Heh (`ہ`)
+  - Retains aspirated Do-chashmi Heh (`ھ`) for proper phonetics (`دھان`, `کھاد`, `پھپھوندی`, `جھلسنا`).
+- **Urdu Stopwords Filtering & N-Gram Indexing**: Filters functional markers (`سے`, `کا`, `کی`, `کے`, `کو`, `نے`, `میں`, `پر`, `ہے`, `ہیں`) while keeping domain entities.
 
-## 3. How Does It Work?
-The chatbot processes questions through a multi-tiered pipeline:
+### 2. Instruction Tuning Dataset Format
+Instructions follow the standard Alpaca / Instruct schema:
+```json
+{
+  "instruction": "فصلوں میں پھپھوندی (Fungal Diseases) کے اسباب اور تدارک کی تفصیل دیں۔",
+  "input": "فصل کو پھپھوندی یا فنگس کی بیماری کیوں لگتی ہے اور اس کا علاج کیا ہے؟",
+  "category": "disease_fungal",
+  "intent": "fungal_disease",
+  "response": "🔬 **پھپھوندی (Fungal Infection) کے اسباب اور حفاظتی تدابیر:...**"
+}
 ```
-Farmer Question
-      ↓
-Text Normalization (lowercasing, punctuation stripping, synonym mapping)
-      ↓
-Tokenization & Stopword Filtering
-      ↓
-Intent Classification & Crop Entity Recognition
-      ↓
-Context-Aware Routing (detects active prediction state or backward-chaining 'Why' questions)
-      ↓
-TF-IDF Vectorization + Cosine Similarity Match against Kaggle knowledge base
-      ↓
-Reasoning Engine Integration (fires Backward Chaining for root cause justification)
-      ↓
-Confidence Scoring & Fallback Protection (conservative advisory if similarity < threshold)
-```
 
-## 4. Inputs & Outputs
-- **Input:** Farmer question string, optional active crop entity, optional current prediction context object.
-- **Output:** Structured response dictionary containing `answer`, `confidence`, `matched_topic`, `category`, and `reasoning_summary`.
+---
 
-## 5. Time & Space Complexity
-- **Time Complexity:** $\mathcal{O}(V \cdot M)$ where $V$ is vocabulary size and $M$ is corpus documents. Retrieval executes in $< 2$ milliseconds.
-- **Space Complexity:** $\mathcal{O}(V \cdot M)$ for sparse TF-IDF matrix representation.
+## How to Train and Evaluate the Urdu Model
 
-## 6. Project Connection
-Directly powers the **CropGuard AI Assistant** screen in Flutter and the `/chat` POST endpoint in the FastAPI backend (`Backend/routes/chat.py`).
-
-## 7. Limitations
-Cannot generate open-ended fictional dialogue outside of agriculture; intentionally restricted to supported agricultural and meteorological concepts to protect farmers from unsafe chemical or agronomic recommendations.
-
-## 8. Runnable Command
+### 1. Train & Export Urdu NLP Classifier
+Run the training pipeline:
 ```bash
-python Practical_09_NLP_App/nlp_chatbot.py
+python Practical_09_NLP_App/train_urdu_model.py
+```
+This will:
+1. Ingest Urdu instruction datasets and domain knowledge.
+2. Fit TF-IDF subword vectorizers and multinomial classifiers.
+3. Validate intent recognition on sample test queries.
+4. Export the serialized model to `Practical_09_NLP_App/urdu_ai_model.json`.
+
+### 2. Interactive Testing via Python
+```python
+from Practical_09_NLP_App.nlp_chatbot import LocalFarmerChatbot
+
+bot = LocalFarmerChatbot()
+response = bot.ask("دھان کی فصل کے لیے کیا احتیاطی تدابیر ہیں؟", language="ur")
+print(response["answer"])
+```
+
+### 3. Live API Endpoint (`/chat`)
+Send HTTP POST requests to `http://localhost:8000/chat`:
+```bash
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "گندم کی فصل میں کھاد کا شیڈول کیا ہے؟", "language": "ur"}'
 ```

@@ -1,7 +1,7 @@
 """
 CropGuard AI: FastAPI Backend Application
 Main entry point orchestrating ML predictors, local NLP chatbot,
-real-time weather queries, and Supabase data operations.
+real-time weather queries, Plant Disease Vision, Self-Improving AI loop, and Supabase data operations.
 """
 
 import os
@@ -15,30 +15,28 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import time
 
-from Backend.routes import health, weather, predict, chat, history, profile
+from Backend.routes import health, weather, predict, chat, history, profile, disease_vision, self_improving
 
 app = FastAPI(
     title="CropGuard AI Backend API",
     description=(
-        "Weather-Based Crop Health Predictor API integrating 9 AI Lab Practicals: "
-        "Regression, Classification, Clustering, Search, Forward/Backward Chaining, "
-        "and Local Domain-Specific NLP Chatbot (Zero external LLMs)."
+        "Weather-Based Crop Health Predictor & Self-Improving Agronomic Intelligence API integrating: "
+        "Multi-Crop Disease Vision CNN, Crop Recommendation Ensemble, Regression, Classification, Clustering, "
+        "Forward/Backward Reasoning, and Local Domain-Specific NLP Chatbot."
     ),
-    version="1.0.0",
+    version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
 
-# CORS Configuration
-allowed_origins_raw = os.getenv("ALLOWED_ORIGINS", "*")
-allowed_origins = [o.strip() for o in allowed_origins_raw.split(",")] if "," in allowed_origins_raw else ["*"]
-
+# CORS Configuration for Flutter Web & Mobile Clients
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["X-Process-Time"],
 )
 
 # Basic Request Timing Middleware & Safe Exception Handling
@@ -52,12 +50,11 @@ async def add_process_time_header(request: Request, call_next):
         return response
     except Exception as exc:
         process_time = time.time() - start_time
-        # Safe error masking for security
         return JSONResponse(
             status_code=500,
             content={
                 "error": "Internal Server Error",
-                "message": "An unexpected error occurred while processing the agricultural request.",
+                "message": f"An unexpected error occurred: {str(exc)}",
                 "duration": f"{process_time:.4f}s"
             }
         )
@@ -69,6 +66,8 @@ app.include_router(predict.router)
 app.include_router(chat.router)
 app.include_router(history.router)
 app.include_router(profile.router)
+app.include_router(disease_vision.router)
+app.include_router(self_improving.router)
 
 if __name__ == "__main__":
     import uvicorn

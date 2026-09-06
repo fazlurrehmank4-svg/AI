@@ -74,45 +74,46 @@ class _ForecastAlertCardState extends State<ForecastAlertCard> {
         children: [
           // Header Row
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: overallColor.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      hasThreat ? Icons.warning_amber_rounded : Icons.shield_outlined,
-                      color: overallColor,
-                      size: 20,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "3-Day Crop Hazard Outlook",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          color: CropGuardTheme.textPrimary,
-                        ),
-                      ),
-                      Text(
-                        "${model.crop} • ${model.location}",
-                        style: const TextStyle(fontSize: 12, color: CropGuardTheme.textSecondary),
-                      ),
-                    ],
-                  ),
-                ],
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: overallColor.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  hasThreat ? Icons.warning_amber_rounded : Icons.shield_outlined,
+                  color: overallColor,
+                  size: 20,
+                ),
               ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "3-Day Hazard Outlook",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: CropGuardTheme.textPrimary,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      "${model.crop} • ${model.location}",
+                      style: const TextStyle(fontSize: 11.5, color: CropGuardTheme.textSecondary),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
               // Overall Threat Tag
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                 decoration: BoxDecoration(
                   color: overallColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
@@ -121,7 +122,7 @@ class _ForecastAlertCardState extends State<ForecastAlertCard> {
                 child: Text(
                   "${model.overallThreatLevel.toUpperCase()} RISK",
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 10.5,
                     fontWeight: FontWeight.w800,
                     color: overallColor,
                   ),
@@ -225,12 +226,16 @@ class _ForecastAlertCardState extends State<ForecastAlertCard> {
                       color: _getRiskColor(activeDay.riskLevel),
                     ),
                     const SizedBox(width: 6),
-                    Text(
-                      "${activeDay.dayName} Threat Assessment (${activeDay.condition}):",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                        color: _getRiskColor(activeDay.riskLevel),
+                    Expanded(
+                      child: Text(
+                        "${activeDay.dayName} Threat Assessment (${activeDay.condition}):",
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w800,
+                          color: _getRiskColor(activeDay.riskLevel),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ),
                   ],

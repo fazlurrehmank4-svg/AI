@@ -1,0 +1,163 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-09-06 22:29:09",
+  "total_queries_processed": 30,
+  "learned_entries": [
+    {
+      "topic": "grapes_probable_problems",
+      "crop": "Grapes",
+      "language": "en",
+      "query_templates": [
+        "probable problems?",
+        "کیڑے مار اور فنگس کش دوا کا اسپرے کب کریں؟"
+      ],
+      "answer_en": "🔬 **Probable Problems & Disease Diagnosis for Grapes:**\n\n**Probable Diseases & Problem Indicators:**\n• **Black Rot (Guignardia bidwellii):** Small circular reddish-brown leaf spots; shriveled, mummified black berries.\n  *Causes & Risk Trigger:* Rain splash spreading spores from mummified berries left on vines.\n  *Recommended Action:* Remove old mummies during winter pruning; spray mancozeb/triazoles early.\n• **Esca (Black Measles):** Tiger-stripe leaf chlorosis and dark spotting on berries.\n  *Causes & Risk Trigger:* Fungal complex infecting pruning wounds in woody trunks.\n  *Recommended Action:* Sanitize pruning shears, treat trunk wounds with protective paste.\n• **Leaf Blight (Isariopsis clavispora):** Irregular dark brown patches on mature foliage.\n  *Causes & Risk Trigger:* Dense unpruned canopy and stagnant air.\n  *Recommended Action:* Leaf-pulling around grape clusters to enhance air circulation.\n\n🌡️ **Current Weather Context (31.0°C, 63.0% RH):** Elevated humidity (63.0%) creates a favorable microclimate for fungal spore germination and foliar infections. Ensure adequate canopy airflow.\n\n**Key Protective Measures:**\n• Maintain trellis canopy management for optimal airflow.\n• Regulate deficit irrigation during veraison to enhance sugar accumulation.",
+      "answer_hi": "",
+      "answer_ur": "",
+      "sample_count": 2,
+      "learned_at": "2026-09-06 22:02:13"
+    },
+    {
+      "topic": "grapes_weather_hazard_evaluation",
+      "crop": "Grapes",
+      "language": "en",
+      "query_templates": [
+        "any hazard?",
+        "any hazard"
+      ],
+      "answer_en": "⛈️ **Weather Hazard Assessment for Grapes at Local Farm:**\n\n✅ **Hazard Assessment:** Conditions are currently favorable with low immediate hazard.\n\n• **Temperature:** 31.0°C (Optimal: 20.0–32.0°C)\n• **Relative Humidity:** 63.0% (Optimal: 45.0–65.0%)\n• **Rainfall:** 0.0 mm • **Wind Speed:** 12.0 km/h\n\n• Temperature (31.0°C) is within safe limits (20.0°C - 32.0°C).",
+      "answer_hi": "",
+      "answer_ur": "",
+      "sample_count": 2,
+      "learned_at": "2026-09-06 22:02:13"
+    },
+    {
+      "topic": "apple_weather_hazard_evaluation",
+      "crop": "Apple",
+      "language": "en",
+      "query_templates": [
+        "for apple any hazard"
+      ],
+      "answer_en": "⛈️ **Weather Hazard Assessment for Apple at uttarpatti malhani jaunpur:**\n\n⚠️ **Hazard Alert:** Specific environmental stress detected.\n\n• **Temperature:** 31.5°C (Optimal: 12.0–24.0°C)\n• **Relative Humidity:** 63.0% (Optimal: 55.0–75.0%)\n• **Rainfall:** 3.6 mm • **Wind Speed:** 11.0 km/h\n\n• Temperature (31.5°C) exceeds the optimal threshold (24.0°C). Heat stress hazard; ensure adequate canopy shading and soil moisture.",
+      "answer_hi": "",
+      "answer_ur": "",
+      "sample_count": 1,
+      "learned_at": "2026-09-06 22:03:23"
+    },
+    {
+      "topic": "rice_precautions",
+      "crop": "Rice",
+      "language": "en",
+      "query_templates": [
+        "What about my rice field any precautions?",
+        "धान की फसल के लिए क्या सावधानियां हैं?",
+        "دھان کی فصل کے لیے کیا احتیاطی تدابیر ہیں؟"
+      ],
+      "answer_en": "🌾 **Key Precautions & Protection Guidelines for Rice:**\n\n1. Maintain controlled standing water (2-5 cm); drain excess flood water during storm surges.\n2. Avoid excessive chemical nitrogen application during cloudy and humid periods.\n3. Scout weekly for stem borer and blast lesions during panicle initiation.",
+      "answer_hi": "",
+      "answer_ur": "",
+      "sample_count": 3,
+      "learned_at": "2026-09-06 22:29:09"
+    },
+    {
+      "topic": "wheat_probable_problems",
+      "crop": "Wheat",
+      "language": "en",
+      "query_templates": [
+        "Why is my crop at risk?",
+        "फसल को रोग का खतरा क्यों है?",
+        "فصل کو بیماری یا خطرہ کیوں ہوتا ہے؟"
+      ],
+      "answer_en": "🔬 **Probable Problems & Disease Diagnosis for Wheat:**\n\n**Probable Diseases & Problem Indicators:**\n• **Yellow / Stripe Rust:** Yellow pustules arranged in linear stripes on leaf blades.\n  *Causes & Risk Trigger:* Prolonged cool moist weather and wind-borne spores.\n  *Recommended Action:* Plant resistant cultivars, monitor early morning dew periods, apply triazole fungicides if risk escalates.\n• **Terminal Heat Stress:** Premature leaf senescence, shriveled grains, and forced maturity.\n  *Causes & Risk Trigger:* Late sowing and sudden temperature spikes.\n  *Recommended Action:* Ensure light irrigation to reduce canopy temperature; apply potassium nitrate spray.\n\n**Key Protective Measures:**\n• Do not over-irrigate during flowering to prevent root lodging and rust susceptibility.\n• Ensure balanced fertilization with adequate phosphorus and potassium.",
+      "answer_hi": "",
+      "answer_ur": "",
+      "sample_count": 3,
+      "learned_at": "2026-09-06 22:29:09"
+    },
+    {
+      "topic": "tomato_probable_problems",
+      "crop": "Tomato",
+      "language": "en",
+      "query_templates": [
+        "Why are my leaves turning yellow?",
+        "पत्तियां पीली क्यों हो रही हैं?",
+        "پتے پیلے کیوں پڑ رہے ہیں؟",
+        "ٹماٹر کے پتے مڑ رہے ہیں کیا کریں؟"
+      ],
+      "answer_en": "🔬 **Probable Problems & Disease Diagnosis for Tomato:**\n\n**Probable Diseases & Problem Indicators:**\n• **Early Blight (Alternaria solani):** Concentric rings ('target board' pattern) on older lower leaves.\n  *Causes & Risk Trigger:* Foliar wetness from dew or rain followed by warm sunshine.\n  *Recommended Action:* Stake plants, mulch to prevent soil splashing, remove lower diseased leaves.\n• **Late Blight (Phytophthora infestans):** Water-soaked irregular lesions with white mold on leaf undersides.\n  *Causes & Risk Trigger:* Continuous leaf wetness and cool humid microclimates.\n  *Recommended Action:* Apply preventive copper/mancozeb sprays before continuous rain spells; avoid overhead watering.\n• **Bacterial Spot (Xanthomonas):** Small, dark, water-soaked circular spots with yellow halos.\n  *Causes & Risk Trigger:* Bacterial pathogen spread by wind-driven rain and infected seeds.\n  *Recommended Action:* Use certified seed, apply copper-bactericide sprays, avoid sprinkler irrigation.\n\n**Key Protective Measures:**\n• Use drip irrigation to keep foliage dry and minimize fungal spore germination.\n• Stake and prune indeterminate varieties to optimize airflow and sunlight penetration.",
+      "answer_hi": "",
+      "answer_ur": "",
+      "sample_count": 4,
+      "learned_at": "2026-09-06 22:29:09"
+    },
+    {
+      "topic": "pesticide_spraying_rules",
+      "crop": "General",
+      "language": "en",
+      "query_templates": [
+        "When to spray pesticide or fungicide?",
+        "कीटनाशक का छिड़काव कब करना चाहिए?",
+        "کیڑے مار اور فنگس کش دوا کا اسپرے کب کریں؟"
+      ],
+      "answer_en": "🚿 **Safe Spraying Guidelines for Pesticides & Fungicides:**\n\n1) **Optimal Timing:** Spray during calm morning or late afternoon hours (wind speed < 12 km/h).\n2) **Rain Check:** Postpone spraying if rain is forecast within 4-6 hours.\n3) **Avoid Peak Heat:** Never spray in scorching afternoon heat (>32°C) to prevent leaf scorching.\n4) **Protective Gear:** Always maintain proper dilution and wear protective gear.",
+      "answer_hi": "",
+      "answer_ur": "",
+      "sample_count": 3,
+      "learned_at": "2026-09-06 22:29:09"
+    },
+    {
+      "topic": "general_fertilizer_guidance",
+      "crop": "General",
+      "language": "en",
+      "query_templates": [
+        "How to use fertilizer properly?",
+        "खाद और उर्वरक का सही उपयोग कैसे करें?",
+        "کھاد اور یوریا کا صحیح استعمال کیسے کریں؟"
+      ],
+      "answer_en": "🌱 **General Balanced Fertilizer Rules:**\n1) Apply full Phosphorus (DAP) & Potash as basal dose at sowing.\n2) Split Nitrogen (Urea) into 2-3 top-dressings during active growth stages.\n3) Avoid applying urea right before rain or in standing flood water.\n4) Supplement with micronutrients (Zinc, Boron) for strong root and grain health.",
+      "answer_hi": "",
+      "answer_ur": "",
+      "sample_count": 3,
+      "learned_at": "2026-09-06 22:29:09"
+    },
+    {
+      "topic": "rice_probable_problems",
+      "crop": "Rice",
+      "language": "hi",
+      "query_templates": [
+        "धान में कौन सी बीमारी लगती है?",
+        "چاول میں کون سی بیماریاں لگتی ہیں؟"
+      ],
+      "answer_en": "",
+      "answer_hi": "🔬 **धान / चावल (Rice) की संभावित समस्याएं, रोग लक्षण एवं रोकथाम:**\n\n**संभावित रोग, समस्याएं एवं लक्षण:**\n• **जीवाणु झुलसा (Bacterial Leaf Blight):** पत्तियों के किनारों से सूखना और पीली-सफेद धारियां बनना।\n  *बचाव:* अत्यधिक यूरिया न डालें, खेत से पानी निकालें और कॉपर फफूंदनाशक का छिड़काव करें।\n• **धान का ब्लास्ट रोग (Rice Blast):** पत्तियों पर आंख या नाव के आकार के भूरे-सफेद धब्बे।\n  *बचाव:* पौधों में पर्याप्त दूरी रखें और ट्राइसायक्लाजोल या जैव कवकनाशी का छिड़काव करें।\n\n**सुरक्षात्मक सावधानियां:**\n• खेत में 2-5 सेमी नियंत्रित जल स्तर बनाए रखें; तेज बारिश के समय जल निकासी करें।\n• बादल छाए रहने और अधिक नमी के समय अतिरिक्त यूरिया (नाइट्रोजन) का उपयोग न करें।",
+      "answer_ur": "",
+      "sample_count": 2,
+      "learned_at": "2026-09-06 22:29:09"
+    },
+    {
+      "topic": "tomato_precautions",
+      "crop": "Tomato",
+      "language": "hi",
+      "query_templates": [
+        "टमाटर की फसल में क्या सावधानी बरतें?"
+      ],
+      "answer_en": "",
+      "answer_hi": "🌾 **टमाटर (Tomato) की फसल के लिए मुख्य सावधानियां:**\n\n1. पत्तियों को गीला होने से बचाने के लिए ड्रिप सिंचाई (टपक सिंचाई) का उपयोग करें।\n2. अगेती व पछेती झुलसा (Blight) से बचाव हेतु पौधों के बीच हवा का प्रवाह बनाए रखें।\n3. पौधों को सहारा (Staking) दें ताकि फल और पत्तियां जमीन की नमी के संपर्क में न आएं।\n4. अधिक नमी होने पर कॉपर ऑक्सीक्लोराइड या मैंकोजेब का सुरक्षात्मक छिड़काव करें।",
+      "answer_ur": "",
+      "sample_count": 1,
+      "learned_at": "2026-09-06 22:29:09"
+    }
+  ],
+  "query_feedback": [
+    {
+      "query": "what are probable problems in grapes?",
+      "rating": 1,
+      "corrected_answer": null,
+      "suggested_topic": "grapes_probable_problems",
+      "crop": null,
+      "language": "en",
+      "timestamp": "2026-09-06 22:02:13"
+    }
+  ],
+  "custom_synonyms": {}
+}

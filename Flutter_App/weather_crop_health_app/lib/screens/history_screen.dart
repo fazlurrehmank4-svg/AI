@@ -102,6 +102,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               Text(
                                 "${item.location} • Score: ${item.cropHealthScore.toInt()}/100",
                                 style: const TextStyle(fontSize: 13, color: CropGuardTheme.textSecondary, fontWeight: FontWeight.w500),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                               const SizedBox(height: 6),
                               Text(
