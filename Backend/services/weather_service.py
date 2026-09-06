@@ -6,9 +6,10 @@ Secondary provider: OpenWeatherMap (enabled automatically when OPENWEATHERMAP_AP
 Includes fallback safe defaults for offline testing.
 """
 
+from __future__ import annotations
 import os
 import httpx
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List, Tuple, Set
 
 class WeatherService:
     def __init__(self):
