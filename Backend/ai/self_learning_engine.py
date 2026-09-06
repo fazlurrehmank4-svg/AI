@@ -11,10 +11,11 @@ import time
 from typing import Dict, List, Any, Optional, Tuple
 import numpy as np
 
-LEARNED_KB_PATH = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "Data", "knowledge_base", "learned_knowledge.json"
-)
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_BACKEND_KB_PATH = os.path.join(_BASE_DIR, "data", "knowledge_base", "learned_knowledge.json")
+_ROOT_KB_PATH = os.path.join(os.path.dirname(_BASE_DIR), "Data", "knowledge_base", "learned_knowledge.json")
+
+LEARNED_KB_PATH = _BACKEND_KB_PATH if os.path.exists(_BACKEND_KB_PATH) else (_ROOT_KB_PATH if os.path.exists(_ROOT_KB_PATH) else _BACKEND_KB_PATH)
 
 class SelfLearningEngine:
     """
@@ -22,8 +23,8 @@ class SelfLearningEngine:
     and indexes new query patterns, user feedback, and domain facts.
     """
 
-    def __init__(self, storage_path: str = LEARNED_KB_PATH):
-        self.storage_path = storage_path
+    def __init__(self, storage_path: Optional[str] = None):
+        self.storage_path = storage_path or LEARNED_KB_PATH
         self.learned_store: Dict[str, Any] = {
             "version": "1.0",
             "last_updated": time.strftime("%Y-%m-%d %H:%M:%S"),

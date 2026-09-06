@@ -17,11 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY Backend/requirements.txt /app/Backend/requirements.txt
 RUN pip install --no-cache-dir -r /app/Backend/requirements.txt
 
-# Copy application code and datasets
+# Copy application code, models, and data
 COPY Backend /app/Backend
-COPY Data /app/Data
-COPY Practical_05_Reasoning /app/Practical_05_Reasoning
-COPY Practical_09_NLP_App /app/Practical_09_NLP_App
 
 EXPOSE 8000
 

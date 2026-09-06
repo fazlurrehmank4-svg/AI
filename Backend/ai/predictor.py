@@ -18,17 +18,36 @@ from datetime import datetime
 from typing import Dict, Any, List, Optional
 
 import sys
-sys.path.append(os.path.abspath("Practical_05_Reasoning"))
-from reasoning_engine import AgriculturalReasoningEngine
+
+# Ensure local ai package directory is in sys.path
+_AI_DIR = os.path.dirname(os.path.abspath(__file__))
+if _AI_DIR not in sys.path:
+    sys.path.insert(0, _AI_DIR)
+
+try:
+    from reasoning_engine import AgriculturalReasoningEngine
+except ImportError:
+    from Backend.ai.reasoning_engine import AgriculturalReasoningEngine
 
 class CropGuardPredictor:
     def __init__(
         self,
-        models_dir: str = "Backend/ai/saved_models",
-        knowledge_base_path: str = "Data/knowledge_base/crop_knowledge.json"
+        models_dir: Optional[str] = None,
+        knowledge_base_path: Optional[str] = None
     ):
-        self.models_dir = models_dir
-        self.knowledge_base_path = knowledge_base_path
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.models_dir = models_dir or os.path.join(base_dir, "ai", "saved_models")
+        
+        # Check Backend/data first, then Data/
+        if knowledge_base_path:
+            self.knowledge_base_path = knowledge_base_path
+        else:
+            default_kb = os.path.join(base_dir, "data", "knowledge_base", "crop_knowledge.json")
+            if os.path.exists(default_kb):
+                self.knowledge_base_path = default_kb
+            else:
+                self.knowledge_base_path = os.path.join(os.path.dirname(base_dir), "Data", "knowledge_base", "crop_knowledge.json")
+        
         self.reasoning_engine = AgriculturalReasoningEngine()
         self.knowledge_base = {}
 

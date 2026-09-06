@@ -6,12 +6,15 @@ Zero external LLM API dependencies.
 import os
 import sys
 
-# Ensure practical directory is accessible
-sys.path.append(os.path.abspath("Practical_09_NLP_App"))
+# Ensure local ai directory is in sys.path
+_AI_DIR = os.path.dirname(os.path.abspath(__file__))
+if _AI_DIR not in sys.path:
+    sys.path.insert(0, _AI_DIR)
+
 try:
     from nlp_chatbot import LocalFarmerChatbot
 except ImportError:
-    from Practical_09_NLP_App.nlp_chatbot import LocalFarmerChatbot
+    from Backend.ai.nlp_chatbot import LocalFarmerChatbot
 
 # Global singleton instance
 chatbot_instance = LocalFarmerChatbot()

@@ -13,19 +13,27 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Import Practical 05 Reasoning Engine
+# Import Reasoning & Self Learning Engines
 import sys
-sys.path.append(os.path.abspath("Practical_05_Reasoning"))
-sys.path.append(os.path.abspath("Practical_09_NLP_App"))
+_AI_DIR = os.path.dirname(os.path.abspath(__file__))
+if _AI_DIR not in sys.path:
+    sys.path.insert(0, _AI_DIR)
+
 try:
     from reasoning_engine import AgriculturalReasoningEngine
 except ImportError:
-    from Practical_05_Reasoning.reasoning_engine import AgriculturalReasoningEngine
+    try:
+        from Backend.ai.reasoning_engine import AgriculturalReasoningEngine
+    except ImportError:
+        from Practical_05_Reasoning.reasoning_engine import AgriculturalReasoningEngine
 
 try:
     from self_learning_engine import SelfLearningEngine
 except ImportError:
-    from Practical_09_NLP_App.self_learning_engine import SelfLearningEngine
+    try:
+        from Backend.ai.self_learning_engine import SelfLearningEngine
+    except ImportError:
+        from Practical_09_NLP_App.self_learning_engine import SelfLearningEngine
 
 # Comprehensive Multilingual Crop Name Mapping (English, Hindi, Urdu)
 CROP_NAME_MAP = {
