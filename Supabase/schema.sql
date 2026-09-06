@@ -60,7 +60,22 @@ CREATE TABLE IF NOT EXISTS public.crop_knowledge (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- 5. Learned Knowledge Table (Stores continuous self-learning phrases & feedback permanently)
+CREATE TABLE IF NOT EXISTS public.learned_knowledge (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    topic TEXT NOT NULL,
+    crop TEXT DEFAULT 'General',
+    language TEXT DEFAULT 'en',
+    query_templates JSONB DEFAULT '[]'::jsonb,
+    answer_en TEXT,
+    answer_hi TEXT,
+    answer_ur TEXT,
+    sample_count INTEGER DEFAULT 1,
+    learned_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 -- Indexes for high-performance querying
 CREATE INDEX IF NOT EXISTS idx_prediction_user_date ON public.prediction_history (user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_chat_user_date ON public.chat_history (user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_crop_knowledge_name ON public.crop_knowledge (crop);
+CREATE INDEX IF NOT EXISTS idx_learned_knowledge_topic ON public.learned_knowledge (topic);

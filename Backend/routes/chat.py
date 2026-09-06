@@ -2,8 +2,11 @@ from fastapi import APIRouter, HTTPException
 from Backend.schemas.api_schemas import ChatRequest, ChatResponse, ChatFeedbackRequest
 from Backend.ai.chatbot import get_chatbot
 
+from Backend.services.supabase_service import SupabaseService
+
 router = APIRouter(tags=["Local AI Chatbot"])
 chatbot = get_chatbot()
+supabase_service = SupabaseService()
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat_with_cropguard(payload: ChatRequest):
@@ -14,6 +17,20 @@ async def chat_with_cropguard(payload: ChatRequest):
             current_prediction=payload.current_prediction,
             language=payload.language
         )
+        
+        # Asynchronously log chat interaction to Supabase
+        try:
+            await supabase_service.save_chat_interaction(
+                message=payload.message,
+                response=response_dict["answer"],
+                crop=payload.crop,
+                confidence=response_dict["confidence"],
+                matched_topic=response_dict["matched_topic"],
+                user_id=payload.user_id
+            )
+        except Exception:
+            pass
+
         return ChatResponse(
             answer=response_dict["answer"],
             confidence=response_dict["confidence"],

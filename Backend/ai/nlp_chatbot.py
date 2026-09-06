@@ -862,6 +862,121 @@ class LocalFarmerChatbot:
         char_map = {'ي': 'ی', 'ى': 'ی', 'ئ': 'ی', 'ك': 'ک', 'ة': 'ہ', 'ۂ': 'ہ', 'ه': 'ہ', 'ؤ': 'و', 'أ': 'ا', 'إ': 'ا', 'آ': 'ا'}
         return "".join(char_map.get(c, c) for c in text).lower()
 
+    def synthesize_dynamic_agronomic_advisory(
+        self,
+        crop: str,
+        topic: str,
+        weather: Dict[str, Any],
+        language: str = "en",
+        soil_ph: Optional[float] = None,
+        growth_stage: Optional[str] = None
+    ) -> str:
+        """
+        Synthesizes dynamic, multi-parameter agronomic advisory combining live weather telemetry,
+        crop stress thresholds, NPK dosages, and chemical/bio-treatment formulas.
+        """
+        c_info = self.knowledge_base.get(crop, {})
+        temp = float(weather.get("temperature", 25.0))
+        hum = float(weather.get("humidity", 60.0))
+        rain = float(weather.get("rainfall", 0.0))
+        wind = float(weather.get("wind_speed", 10.0))
+        ph = float(soil_ph or 6.5)
+
+        # Baseline NPK benchmarks per crop (kg/ha)
+        npk_database = {
+            "Wheat": (120, 60, 40), "Rice": (100, 50, 50), "Tomato": (150, 100, 100),
+            "Potato": (180, 100, 120), "Maize": (120, 60, 40), "Cotton": (120, 60, 60),
+            "Apple": (100, 50, 100), "Banana": (200, 60, 200), "Grapes": (120, 80, 120),
+            "Sugarcane": (250, 100, 120), "Chickpea": (20, 40, 20)
+        }
+        n_val, p_val, k_val = npk_database.get(crop, (100, 50, 50))
+
+        # Dynamic Weather & Disease Stress Evaluation
+        is_fungal_risk = (hum >= 75.0 or rain >= 60.0)
+        is_heat_stress = (temp >= 32.0)
+        is_wind_hazard = (wind >= 22.0)
+
+        crop_hi = CROP_HINDI_NAMES.get(crop, crop)
+        crop_ur = CROP_URDU_NAMES.get(crop, crop)
+
+        if language == "ur":
+            # Dynamic Urdu Synthesis
+            weather_alert = ""
+            if is_fungal_risk:
+                weather_alert += f"⚠️ **موسمی الرٹ (فنگس کا خطرہ):** ہوا میں نمی ({hum:.0f}%) زیادہ ہے، جس سے پودوں پر پھپھوندی کا خطرہ بڑھ جاتا ہے۔\n"
+            elif is_heat_stress:
+                weather_alert += f"⚠️ **موسمی الرٹ (گرمی کا تناؤ):** درجہ حرارت ({temp:.1f}°C) زیادہ ہے، وتر برقرار رکھنے کے لیے ہلکی آبپاشی کریں۔\n"
+
+            fert_section = (
+                f"🧪 **کھاد اور غذائی انتظام (NPK تناسب {n_val}:{p_val}:{k_val} کلوگرام فی ایکڑ):**\n"
+                f"• نائٹروجن (یوریا) کو 2 تا 3 اقساط میں تقسیم کر کے دیں۔\n"
+                f"• فاسفورس (DAP) اور پوٹاش کی مکمل مقدار بوائی کے وقت دیں۔\n"
+            )
+            if ph < 6.0:
+                fert_section += "• زمین میں تیزابیت (pH < 6.0) کے تدارک کے لیے چونا شامل کریں۔\n"
+            elif ph > 7.8:
+                fert_section += "• کلراٹھی زمین (pH > 7.8) کے لیے جپسم اور نامیاتی گوبر کا استعمال کریں۔\n"
+
+            spray_section = (
+                f"🛡️ **حفاظتی اور کیمیائی اسپرے کا طریقہ کار:**\n"
+                f"• **حفاظتی بائیو اسپرے:** نیم آئل (5ml فی لیٹر) یا ٹرائیکوڈرما کا اسپرے کریں۔\n"
+                f"• **پھپھوندی کے خلاف:** کاپر آکسی کلورائیڈ 50 WP (2.5 گرام فی لیٹر) استعمال کریں۔\n"
+                + (f"• ⚠️ ہوا کی رفتار ({wind:.1f} کلومیٹر/گھنٹہ) زیادہ ہے، اسپرے صبح یا شام کے پرسکون وقت میں کریں۔\n" if is_wind_hazard else "• اسپرے صبح کے وقت کریں تاکہ زیادہ سے زیادہ اثر مل سکے۔\n")
+            )
+            return f"🌾 **{crop_ur} کے لیے ریئل ٹائم زرعی سفارشات:**\n\n{weather_alert}\n{fert_section}\n{spray_section}"
+
+        elif language == "hi":
+            # Dynamic Hindi Synthesis
+            weather_alert = ""
+            if is_fungal_risk:
+                weather_alert += f"⚠️ **मौसम चेतावनी (फंगस/झुलसा जोखिम):** वायुमंडल में नमी ({hum:.0f}%) अधिक है, जिससे फफूंद रोग फैलने की संभावना है।\n"
+            elif is_heat_stress:
+                weather_alert += f"⚠️ **मौसम चेतावनी (तापमान तनाव):** तापमान ({temp:.1f}°C) अधिक है, फसलों को लू से बचाने के लिए हल्की सिंचाई करें।\n"
+
+            fert_section = (
+                f"🧪 **संतुलित उर्वरक प्रबंधन (NPK अनुपात {n_val}:{p_val}:{k_val} किग्रा/एकड़):**\n"
+                f"• यूरिया (नाइट्रोजन) को 2-3 किस्तों में वृद्धि के समय दें।\n"
+                f"• डीएपी (फास्फोरस) एवं पोटाश की पूरी खुराक बुवाई के समय आधार रूप में दें।\n"
+            )
+            if ph < 6.0:
+                fert_section += "• अम्लीय मिट्टी (pH < 6.0) के सुधार हेतु कृषि चूना (Lime) मिलाएं।\n"
+            elif ph > 7.8:
+                fert_section += "• क्षारीय मिट्टी (pH > 7.8) में जिप्सम और कम्पोस्ट खाद का प्रयोग करें।\n"
+
+            spray_section = (
+                f"🛡️ **रोग निवारक एवं कीटनाशक छिड़काव:**\n"
+                f"• **जैविक सुरक्षा:** 5ml/लीटर नीम तेल या ट्राइकोडर्मा विरिडी (5g/L) का छिड़काव करें।\n"
+                f"• **फफूंदनाशक:** कॉपर ऑक्सीक्लोराइड 50 WP (2.5g/लीटर) या मैन्कोजेब का उपयोग करें।\n"
+                + (f"• ⚠️ हवा की गति ({wind:.1f} km/h) तेज है, छिड़काव शांत मौसम (सुबह/शाम) में ही करें।\n" if is_wind_hazard else "• छिड़काव हमेशा शांत धूप खिलने से पहले सुबह करें।\n")
+            )
+            return f"🌾 **{crop_hi} की वैज्ञानिक एवं सटीक सलाह:**\n\n{weather_alert}\n{fert_section}\n{spray_section}"
+
+        else:
+            # Dynamic English Synthesis
+            weather_alert = ""
+            if is_fungal_risk:
+                weather_alert += f"⚠️ **Weather Alert (Fungal Pathogen Risk):** Relative humidity ({hum:.0f}%) is high, creating favorable microclimate for foliar blight & mildew.\n"
+            elif is_heat_stress:
+                weather_alert += f"⚠️ **Weather Alert (Heat Stress):** Ambient temp ({temp:.1f}°C) exceeds optimal envelope. Ensure adequate root-zone moisture.\n"
+
+            fert_section = (
+                f"🧪 **Customized Nutrient & NPK Protocol ({n_val}:{p_val}:{k_val} kg/ha):**\n"
+                f"• Apply Basal DAP (Phosphorus) and MOP (Potash) during field preparation.\n"
+                f"• Split Urea (Nitrogen) into 2-3 top-dressings aligned with critical vegetative tillering/flowering.\n"
+            )
+            if ph < 6.0:
+                fert_section += f"• Soil pH ({ph:.1f}) is acidic; apply agricultural lime to improve nutrient uptake.\n"
+            elif ph > 7.8:
+                fert_section += f"• Soil pH ({ph:.1f}) is alkaline; apply gypsum and organic humic compost.\n"
+
+            spray_section = (
+                f"🛡️ **Bio & Chemical Spray Guidelines:**\n"
+                f"• **Bio-Fungicide:** Trichoderma viride @ 5g/L or Cold-Pressed Neem Oil (10,000 ppm) @ 5ml/L.\n"
+                f"• **Curative Fungicide:** Copper Oxychloride 50% WP @ 2.5g/L or Mancozeb 75% WP @ 2.0g/L.\n"
+                + (f"• ⚠️ Wind velocity ({wind:.1f} km/h) is elevated. Schedule foliar sprays during calm early morning hours.\n" if is_wind_hazard else "• Spray during early morning hours with residual foliar adhesion.\n")
+            )
+            return f"🌾 **Real-Time Agronomic Prescription for {crop}:**\n\n{weather_alert}\n{fert_section}\n{spray_section}"
+
     def ask(
         self,
         question: str,
@@ -1457,37 +1572,21 @@ class LocalFarmerChatbot:
                     "category": "agronomic_advisory",
                     "reasoning_summary": "Synthesized actionable agronomic pest advisory."
                 }
-            elif is_agri_related:
-                if is_urdu:
-                    adv = (
-                        f"🌱 **{crop_name} کی زراعت اور حفاظت کے بنیادی رہنما اصول:**\n\n"
-                        f"1) **پانی اور وتر:** زمین میں مناسب وتر رکھیں اور پانی کھڑا نہ ہونے دیں،\n"
-                        f"2) **امراض سے بچاؤ:** نمی زیادہ ہونے کی صورت میں فنگس کش دوا کا بروقت اسپرے کریں،\n"
-                        f"3) **کھاد کا انتظام:** فاسفورس بوائی کے وقت اور نائٹروجن (یوریا) کو 2 تا 3 قسطوں میں دیں،\n"
-                        f"4) **نگہداشت:** پودوں کا باقاعدگی سے معائنہ کریں تاکہ بیماریوں کا بر وقت تدارک ہو سکے۔"
-                    )
-                elif is_hindi:
-                    adv = (
-                        f"🌱 **{crop_name} की खेती एवं फसल सुरक्षा के प्रमुख दिशानिर्देश:**\n\n"
-                        f"1) **सिंचाई व जल निकासी:** खेत में जलभराव न होने दें और उचित समय पर पानी लगाएं,\n"
-                        f"2) **रोग एवं फफूंद से बचाव:** अधिक नमी में कॉपर फफूंदनाशक का सुरक्षात्मक छिड़काव करें,\n"
-                        f"3) **संतुलित उर्वरक:** बुवाई के समय डीएपी/पोटाश और वृद्धि के समय यूरिया को किस्तों में दें,\n"
-                        f"4) **नियमित निगरानी:** कीटों और पत्तियों के रंग की साप्ताहिक जांच करें।"
-                    )
-                else:
-                    adv = (
-                        f"🌱 **Core Agronomic Care & Best Practices for {crop_name}:**\n\n"
-                        f"1) **Soil & Moisture:** Maintain adequate root-zone aeration and avoid prolonged standing water,\n"
-                        f"2) **Disease Prevention:** Apply preventive bio-fungicide during humid microclimates,\n"
-                        f"3) **Balanced Fertilization:** Apply basal DAP/Potash and top-dress Urea in split doses,\n"
-                        f"4) **Scouting:** Inspect underside of leaves weekly for early pathogen detection."
-                    )
+            elif is_agri_related or detected_crop:
+                crop_to_use = detected_crop or "Wheat"
+                adv = self.synthesize_dynamic_agronomic_advisory(
+                    crop=crop_to_use,
+                    topic="general_care_and_fertilization",
+                    weather=curr_weather,
+                    language=target_lang,
+                    soil_ph=current_prediction.get("soil_ph") if current_prediction else 6.5
+                )
                 result = {
                     "answer": adv,
-                    "confidence": 0.88,
-                    "matched_topic": "domain_advisory_synthesis",
+                    "confidence": 0.92,
+                    "matched_topic": "dynamic_agronomic_synthesis",
                     "category": "agronomic_advisory",
-                    "reasoning_summary": "Synthesized actionable agronomic advisory."
+                    "reasoning_summary": f"Synthesized live multi-parameter agronomic prescription for {crop_to_use}."
                 }
             else:
                 if is_urdu:

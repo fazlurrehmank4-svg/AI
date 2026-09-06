@@ -35,8 +35,16 @@ class SelfLearningEngine:
         }
         self._load_store()
 
+    def _get_supabase(self):
+        try:
+            from Backend.services.supabase_service import SupabaseService
+            return SupabaseService()
+        except Exception:
+            return None
+
     def _load_store(self) -> None:
-        """Loads learned knowledge from disk if present."""
+        """Loads learned knowledge from disk and merges permanent Supabase cloud records."""
+        # 1. Load local disk knowledge
         if os.path.exists(self.storage_path):
             try:
                 with open(self.storage_path, "r", encoding="utf-8") as f:
@@ -45,12 +53,36 @@ class SelfLearningEngine:
             except Exception as e:
                 print(f"[SelfLearningEngine] Warning loading store: {e}")
 
+        # 2. Merge Cloud Supabase learned entries if available
+        sb = self._get_supabase()
+        if sb:
+            try:
+                cloud_entries = sb.fetch_learned_entries_sync()
+                if cloud_entries:
+                    existing_topics = {e.get("topic") for e in self.learned_store.get("learned_entries", [])}
+                    for ce in cloud_entries:
+                        if ce.get("topic") not in existing_topics:
+                            self.learned_store.setdefault("learned_entries", []).append(ce)
+                            existing_topics.add(ce.get("topic"))
+                    print(f"[SelfLearningEngine] Synced {len(cloud_entries)} permanent learned entries from Supabase.")
+            except Exception as e:
+                print(f"[SelfLearningEngine] Cloud knowledge sync notice: {e}")
+
     def _save_store(self) -> None:
-        """Saves current learned knowledge to disk."""
+        """Saves current learned knowledge to disk and synchronizes to Supabase."""
         os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
         self.learned_store["last_updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
-        with open(self.storage_path, "w", encoding="utf-8") as f:
-            json.dump(self.learned_store, f, ensure_ascii=False, indent=2)
+        try:
+            with open(self.storage_path, "w", encoding="utf-8") as f:
+                json.dump(self.learned_store, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"[SelfLearningEngine] Save warning: {e}")
+
+        # Sync all recent learned entries to Supabase
+        sb = self._get_supabase()
+        if sb:
+            for entry in self.learned_store.get("learned_entries", [])[-10:]:
+                sb.save_learned_entry_sync(entry)
 
     def record_interaction(
         self,

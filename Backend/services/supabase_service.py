@@ -112,3 +112,69 @@ class SupabaseService:
                 "primary_crops": ["Wheat", "Tomato"]
             }
         return self._memory_profiles[user_id]
+
+    async def save_chat_interaction(
+        self,
+        message: str,
+        response: str,
+        crop: Optional[str] = None,
+        confidence: Optional[float] = None,
+        matched_topic: Optional[str] = None,
+        user_id: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Saves farmer conversational interaction to Supabase chat_history.
+        """
+        record = {
+            "user_id": user_id or "00000000-0000-0000-0000-000000000000",
+            "message": message,
+            "response": response,
+            "crop": crop or "General",
+            "confidence": float(confidence or 0.0),
+            "matched_topic": matched_topic or "general_qa",
+            "created_at": datetime.utcnow().isoformat()
+        }
+        if self.client:
+            try:
+                res = self.client.table("chat_history").insert(record).execute()
+                return res.data[0] if res.data else record
+            except Exception as e:
+                print(f"[SupabaseService] Chat history save notice: {e}")
+        return record
+
+    def save_learned_entry_sync(self, entry: Dict[str, Any]) -> bool:
+        """
+        Synchronously persists newly discovered knowledge/phrase into Supabase cloud table.
+        """
+        if not self.client:
+            return False
+        try:
+            record = {
+                "topic": entry.get("topic", "custom_topic"),
+                "crop": entry.get("crop", "General"),
+                "language": entry.get("language", "en"),
+                "query_templates": entry.get("query_templates", []),
+                "answer_en": entry.get("answer_en", ""),
+                "answer_hi": entry.get("answer_hi", ""),
+                "answer_ur": entry.get("answer_ur", ""),
+                "sample_count": entry.get("sample_count", 1),
+                "learned_at": datetime.utcnow().isoformat()
+            }
+            self.client.table("learned_knowledge").upsert(record, on_conflict="topic").execute()
+            return True
+        except Exception as e:
+            print(f"[SupabaseService] Learned knowledge sync notice: {e}")
+            return False
+
+    def fetch_learned_entries_sync(self) -> List[Dict[str, Any]]:
+        """
+        Synchronously fetches all crowd-learned knowledge entries from Supabase to load into TF-IDF.
+        """
+        if not self.client:
+            return []
+        try:
+            res = self.client.table("learned_knowledge").select("*").limit(200).execute()
+            return res.data or []
+        except Exception as e:
+            print(f"[SupabaseService] Fetch learned knowledge notice: {e}")
+            return []
