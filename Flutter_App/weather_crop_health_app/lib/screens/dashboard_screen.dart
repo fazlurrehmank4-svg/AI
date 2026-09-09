@@ -417,7 +417,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Welcome, $userName 👋",
+                                LanguageService().welcome(userName),
                                 style: const TextStyle(
                                   fontSize: 19,
                                   fontWeight: FontWeight.w800,
@@ -585,7 +585,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: CropGuardTheme.primary,
         icon: const Icon(Icons.smart_toy_outlined, color: Colors.white),
-        label: const Text("Ask CropGuard", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        label: Text(LanguageService().askCropGuardButton, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         onPressed: () {
           Navigator.push(
             context,
@@ -770,7 +770,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.cloud_outlined, color: CropGuardTheme.primary),
-            title: const Text("Weather Telemetry"),
+            title: Text(LanguageService().drawerWeather),
             onTap: () {
               Navigator.pop(context);
               _openWeatherScreen();
@@ -778,7 +778,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.smart_toy_outlined, color: CropGuardTheme.primary),
-            title: const Text("CropGuard AI Assistant (Local)"),
+            title: Text(LanguageService().drawerChatbot),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -794,7 +794,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.history_rounded, color: CropGuardTheme.primary),
-            title: const Text("Prediction History"),
+            title: Text(LanguageService().drawerHistory),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (_) => const HistoryScreen()));
@@ -803,7 +803,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.settings_outlined, color: CropGuardTheme.textSecondary),
-            title: const Text("Settings & API Endpoint"),
+            title: Text(LanguageService().drawerSettings),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
@@ -811,7 +811,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.info_outline, color: CropGuardTheme.textSecondary),
-            title: const Text("About Project & AI Practicals"),
+            title: Text(LanguageService().drawerAbout),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()));
