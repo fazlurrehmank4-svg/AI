@@ -6,6 +6,7 @@ import '../models/prediction_model.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../services/location_service.dart';
+import '../services/language_service.dart';
 import '../widgets/weather_card.dart';
 import '../widgets/health_score_gauge.dart';
 import '../widgets/risk_badge.dart';
@@ -324,10 +325,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = AuthService().currentUser;
-    final userName = user?.fullName ?? "Farmer";
+    return ValueListenableBuilder<String>(
+      valueListenable: LanguageService(),
+      builder: (context, currentLang, _) {
+        final user = AuthService().currentUser;
+        final userName = user?.fullName ?? "Farmer";
 
-    return Scaffold(
+        return Scaffold(
       backgroundColor: CropGuardTheme.background,
       appBar: AppBar(
         title: Row(
@@ -349,19 +353,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
             icon: const Icon(Icons.language_rounded),
             tooltip: "Change Language (भाषा / زبان)",
             onSelected: (lang) {
-              final label = lang == "ur" ? "اردو (Urdu)" : lang == "hi" ? "हिंदी (Hindi)" : "English";
+              LanguageService().setLanguage(lang);
+              final label = lang == "ur" ? "اردو" : lang == "hi" ? "हिंदी" : "English";
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: CropGuardTheme.primary,
                   duration: const Duration(seconds: 2),
-                  content: Text("🌐 Language set to $label"),
+                  content: Text("Language set to $label"),
                 ),
               );
             },
             itemBuilder: (ctx) => const [
-              PopupMenuItem(value: "en", child: Text("English 🇬🇧")),
-              PopupMenuItem(value: "hi", child: Text("हिंदी (Hindi) 🇮🇳")),
-              PopupMenuItem(value: "ur", child: Text("اردو (Urdu) 🇵🇰")),
+              PopupMenuItem(value: "en", child: Text("English")),
+              PopupMenuItem(value: "hi", child: Text("हिंदी")),
+              PopupMenuItem(value: "ur", child: Text("اردو")),
             ],
           ),
           IconButton(
@@ -824,6 +829,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(height: 16),
         ],
       ),
+    );
+      },
     );
   }
 }
