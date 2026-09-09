@@ -612,10 +612,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  "Crop Health Diagnosis",
-                  style: TextStyle(
+                  LanguageService().cropHealthDiagnosisTitle,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                     color: CropGuardTheme.textPrimary,
@@ -637,7 +637,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${pred.crop} Health Index",
+                      LanguageService().t(en: "${pred.crop} Health Index", hi: "${pred.crop} स्वास्थ्य सूचकांक", ur: "${pred.crop} ہیلتھ انڈیکس"),
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -706,7 +706,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  hasWarning ? "Agronomic Stress Factors" : "Optimal Conditions",
+                  hasWarning
+                      ? LanguageService().t(en: "Agronomic Stress Factors", hi: "कृषि तनाव के कारक", ur: "زرعی تناؤ کی وجوہات")
+                      : LanguageService().t(en: "Optimal Conditions", hi: "उत्कृष्ट स्थिति", ur: "بہترین حالت"),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
