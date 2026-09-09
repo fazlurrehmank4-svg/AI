@@ -37,6 +37,7 @@
    - `Practical_08_Clustering`: K-Means clustering on weather and crop vulnerability profiles with visualizer.
    - `Practical_09_NLP_App`: Local NLP farmer chatbot (TF-IDF, cosine similarity, rule-based reasoning, Kaggle knowledge base, zero external LLMs).
    - `Practical_10_Mini_Project`: Integrated end-to-end system.
+   - `Practical_11_Reinforcement_Learning`: Q-Learning agent for optimal sequential irrigation and resource allocation.
 4. **Existing Backend:**
    - None (FastAPI backend structure with modular `ai/`, `services/`, `routes/`, `models/`, `schemas/`, `tests/` will be constructed).
 5. **Existing Flutter App:**

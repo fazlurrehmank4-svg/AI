@@ -118,7 +118,7 @@ Agricultural yield vulnerability is predominantly governed by micro-meteorologic
 
 ---
 
-## The 10 AI Lab Practicals
+## The 11 AI Lab Practicals
 
 Every practical exists as an independently runnable academic script and contributes directly to the integrated system:
 
@@ -134,6 +134,7 @@ Every practical exists as an independently runnable academic script and contribu
 | `Practical_08_Clustering` | Unsupervised Clustering | K-Means ($k=3$) micro-climate stress zone discovery | `python Practical_08_Clustering/clustering_model.py` |
 | `Practical_09_NLP_App` | Domain-Specific NLP | Local TF-IDF + Cosine similarity assistant (Zero external LLMs) | `python Practical_09_NLP_App/nlp_chatbot.py` |
 | `Practical_10_Mini_Project` | Integrated Application | Complete end-to-end multi-tier pipeline execution | `python Practical_10_Mini_Project/main.py` |
+| `Practical_11_Reinforcement_Learning` | Reinforcement Learning | Q-Learning agent ($\alpha=0.1, \gamma=0.95$) for optimal irrigation | `python Practical_11_Reinforcement_Learning/rl_irrigation_agent.py` |
 
 ---
 
@@ -180,6 +181,7 @@ Confidence Scoring & Fallback Protection (similarity < 0.22 triggers safe educat
 | **k-Nearest Neighbors ($k=5$)** | Categorical Risk Status | Accuracy = 88.33%, Macro F1 = 0.7587 | `Backend/ai/saved_models/knn_model.joblib` |
 | **Decision Tree (CART, max_depth=6)** | Categorical Risk Status | Accuracy = 87.71%, Macro F1 = 0.7310 | `Backend/ai/saved_models/decision_tree_model.joblib` |
 | **K-Means Clustering ($k=3$)** | Agro-Climatic Zoning | Silhouette Score = 0.2970, Inertia = 6123.13 | `Backend/ai/saved_models/kmeans_model.joblib` |
+| **Tabular Q-Learning Agent** | Sequential Irrigation Policy | Reward Convergence (+33.78 per episode), Bellman TD Update | `Backend/ai/saved_models/q_learning_irrigation.joblib` |
 
 ---
 
