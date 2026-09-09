@@ -179,18 +179,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                "Choose Your Farm Location",
-                style: TextStyle(
+              Text(
+                LanguageService().locationPickerTitle,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                   color: CropGuardTheme.textPrimary,
                 ),
               ),
               const SizedBox(height: 6),
-              const Text(
-                "Select your agricultural district or auto-detect via GPS for live weather telemetry.",
-                style: TextStyle(fontSize: 12, color: CropGuardTheme.textSecondary),
+              Text(
+                LanguageService().locationPickerSubtitle,
+                style: const TextStyle(fontSize: 12, color: CropGuardTheme.textSecondary),
               ),
               const SizedBox(height: 16),
 
@@ -207,9 +207,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 icon: const Icon(Icons.my_location_rounded, size: 18),
-                label: const Text(
-                  "Use Current GPS Location",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                label: Text(
+                  LanguageService().useGpsButton,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
                 onPressed: () {
                   Navigator.pop(ctx);
@@ -223,7 +223,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 controller: searchCtrl,
                 autofocus: false,
                 decoration: InputDecoration(
-                  hintText: "Type any district (e.g. Nashik, Ludhiana)...",
+                  hintText: LanguageService().searchDistrictHint,
                   prefixIcon: const Icon(Icons.search, color: CropGuardTheme.primary),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.check_circle_rounded, color: CropGuardTheme.primary),
@@ -246,9 +246,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const SizedBox(height: 16),
 
               // 3. Quick Popular Districts
-              const Text(
-                "Major Agricultural Hubs",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: CropGuardTheme.textSecondary),
+              Text(
+                LanguageService().majorHubsTitle,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: CropGuardTheme.textSecondary),
               ),
               const SizedBox(height: 8),
               Wrap(
@@ -256,8 +256,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 runSpacing: 8,
                 children: popularAgriDistricts.map((city) {
                   final isSelected = _farmLocation.toLowerCase().contains(city.toLowerCase());
+                  final translatedCity = LanguageService().getLocationName(city);
                   return ChoiceChip(
-                    label: Text(city),
+                    label: Text(translatedCity),
                     selected: isSelected,
                     selectedColor: CropGuardTheme.primary.withValues(alpha: 0.2),
                     backgroundColor: Colors.white,
@@ -450,7 +451,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       const SizedBox(width: 4),
                                       Flexible(
                                         child: Text(
-                                          _farmLocation,
+                                          LanguageService().getLocationName(_farmLocation),
                                           style: const TextStyle(
                                             fontSize: 12.5,
                                             fontWeight: FontWeight.w700,
@@ -494,7 +495,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Text(_selectedCrop.emoji, style: const TextStyle(fontSize: 16)),
                                 const SizedBox(width: 6),
                                 Text(
-                                  _selectedCrop.name,
+                                  LanguageService().getCropName(_selectedCrop.name),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: CropGuardTheme.primaryDark,
@@ -637,7 +638,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      LanguageService().t(en: "${pred.crop} Health Index", hi: "${pred.crop} स्वास्थ्य सूचकांक", ur: "${pred.crop} ہیلتھ انڈیکس"),
+                      LanguageService().t(
+                        en: "${LanguageService().getCropName(pred.crop)} Health Index",
+                        hi: "${LanguageService().getCropName(pred.crop)} स्वास्थ्य सूचकांक",
+                        ur: "${LanguageService().getCropName(pred.crop)} ہیلتھ انڈیکس",
+                      ),
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
