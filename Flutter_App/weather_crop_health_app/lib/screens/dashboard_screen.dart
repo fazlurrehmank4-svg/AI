@@ -599,6 +599,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
       ),
     );
+      },
+    );
   }
 
   Widget _buildHealthOverviewCard(BuildContext context, PredictionModel pred) {
@@ -829,8 +831,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(height: 16),
         ],
       ),
-    );
-      },
     );
   }
 }
